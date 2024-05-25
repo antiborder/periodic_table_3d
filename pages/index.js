@@ -37,7 +37,7 @@ export default function Home({ allPostsData }) {
               <small className={utilStyles.lightText}>
                 <Date dateString={date} />
               </small>
-            </li>ss
+            </li>
           ))}
         </ul>
       </section>
