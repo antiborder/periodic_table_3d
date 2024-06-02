@@ -1,13 +1,4 @@
-import { parseISO, format } from 'date-fns';
-import { FC } from 'react';
-
-interface DateProps {
-  dateString: string;
+import { NextApiRequest, NextApiResponse } from 'next';
+export default function handler(req: NextApiRequest, res: NextApiResponse): void {
+  res.status(200).json({ text: 'Hello' });
 }
-
-const Date: FC<DateProps> = ({ dateString }) => {
-  const date = parseISO(dateString);
-  return <time dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>;
-};
-
-export default Date;
