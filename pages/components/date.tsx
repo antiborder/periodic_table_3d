@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-interface DateProps {
+type DateProps = {
   dateString: string;
 }
 
-const Date: FC<DateProps> = ({ dateString }) => {
+const Date = ({ dateString}:DateProps): React.ReactNode => {
   return <time dateTime={dateString}>{dateString}</time>;
 };
 

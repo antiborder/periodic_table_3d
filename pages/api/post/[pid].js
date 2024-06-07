@@ -1,4 +1,5 @@
-export default (req, res) =>{
+
+export default handler = (req, res) => {
     const {
         query:{pid},
     }
