@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(
+ const handler = (
   req: NextApiRequest,
   res: NextApiResponse
-) {
+) : void => {
   res.status(200).json({ text: 'Hello' });
 }
+export default handler

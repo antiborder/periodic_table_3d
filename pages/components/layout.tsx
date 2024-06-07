@@ -8,12 +8,12 @@ import { ReactNode, FC } from 'react';
 const name = 'Your Name';
 export const siteTitle = 'Next.js Sample Website';
 
-interface LayoutProps {
+type LayoutProps = {
   children: ReactNode;
   home?: boolean;
 }
 
-const Layout: FC<LayoutProps> = ({ children, home }) => {
+const Layout = ({ children, home }: LayoutProps): React.ReactNode => {
   return (
     <div className={styles.container}>
       <Head>

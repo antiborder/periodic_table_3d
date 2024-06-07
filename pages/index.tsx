@@ -23,7 +23,7 @@ type Props = {
   }[];
 };
 
-export default function Home({ allPostsData }: Props) {
+const Home = ({ allPostsData }: Props): React.ReactNode  => {
   return (
     <Layout home>
       <Head>
@@ -53,3 +53,4 @@ export default function Home({ allPostsData }: Props) {
     </Layout>
   );
 }
+export default Home;
