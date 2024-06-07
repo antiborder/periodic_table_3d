@@ -1,21 +1,25 @@
-// import { getAllPostIds, getPostData} from "../../lib/posts";
+import { getAllPostIds, getPostData} from "../../lib/posts";
 import Date from "../components/date";
 import Layout from "../components/layout";
 import Head from 'next/head';
 import utilStyles from '../../styles/utils.module.css';
-// import { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticProps, GetStaticPaths } from "next";
 
+type Params = {
+  params: {
+    id: string;
+  };
+}
 
-
-// const getStaticProps :GetStaticProps = async  ({ params }) =>{
-//   const postData = await getPostData(params.id);
-//   return {
-//     props: {
-//       postData,
-//     },
-//   };
-// }
-// export { getStaticProps }
+const getStaticProps: GetStaticProps = async ({ params }: Params) => {
+  const postData = await getPostData(params.id)
+  return {
+    props: {
+      postData
+    }
+  }
+}
+export { getStaticProps }
 
 type PostData = {
   title: string;
@@ -45,11 +49,11 @@ const Post = ({ postData }: PostProps):React.ReactNode => {
 }
 export default Post;
 
-// const getStaticPaths: GetStaticPaths = async () => {
-//   const paths = getAllPostIds();
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-// export { getStaticPaths }
+const getStaticPaths: GetStaticPaths = async () => {
+  const paths = getAllPostIds();
+  return {
+    paths,
+    fallback: false,
+  };
+}
+export { getStaticPaths }
