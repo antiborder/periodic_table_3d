@@ -1,29 +1,29 @@
-import { GetStaticProps } from "next";
-import Head from "next/head";
-import Layout, { siteTitle } from "./components/layout";
-import utilStyles from "../styles/utils.module.css";
-import Link from "next/link";
-import Date from "./components/date";
-import { getSortedPostsData } from "../lib/posts";
+import { GetStaticProps } from "next"
+import Head from "next/head"
+import Layout, { siteTitle } from "./components/layout"
+import utilStyles from "../styles/utils.module.css"
+import Link from "next/link"
+import Date from "./components/date"
+import { getSortedPostsData } from "../lib/posts"
 
-export const getStaticProps: GetStaticProps = async () =>{
-  const allPostsData = getSortedPostsData();
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = getSortedPostsData()
   return {
     props: {
       allPostsData,
     },
-  };
+  }
 }
 
 type Props = {
   allPostsData: {
-    id: string;
-    title: string;
-    date: string;
-  }[];
-};
+    id: string
+    title: string
+    date: string
+  }[]
+}
 
-const Home = ({ allPostsData }: Props): React.ReactNode  => {
+const Home = ({ allPostsData }: Props): React.ReactNode => {
   return (
     <Layout home>
       <Head>
@@ -51,6 +51,6 @@ const Home = ({ allPostsData }: Props): React.ReactNode  => {
         </ul>
       </section>
     </Layout>
-  );
+  )
 }
-export default Home;
+export default Home

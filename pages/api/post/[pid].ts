@@ -1,15 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next"
 
-const handler =  async  (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const {
     query: { pid },
-  } = req;
+  } = req
 
-  if (typeof pid !== 'string') {
-    res.status(400).end('Invalid request');
-    return;
+  if (typeof pid !== "string") {
+    res.status(400).end("Invalid request")
+    return
   }
 
-  res.end(`Post: ${pid}`);
-};
-export default handler;
+  res.end(`Post: ${pid}`)
+}
+export default handler

@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { FC } from "react"
 
 type DateProps = {
-  dateString: string;
+  dateString: string
 }
 
-const Date = ({ dateString}:DateProps): React.ReactNode => {
-  return <time dateTime={dateString}>{dateString}</time>;
-};
+const Date = ({ dateString }: DateProps): React.ReactNode => {
+  return <time dateTime={dateString}>{dateString}</time>
+}
 
-export default Date;
+export default Date
