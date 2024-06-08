@@ -1,8 +1,6 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "extends": ["next/core-web-vitals", "next", "prettier"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "error"
   }
