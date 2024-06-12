@@ -8,13 +8,16 @@
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "dependencies": {
+    "@react-three/drei": "^9.106.0",
+    "@react-three/fiber": "^8.16.8",
     "date-fns": "^3.6.0",
     "gray-matter": "^4.0.3",
     "next": "latest",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-dom": "18.2.0",
     "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "remark-html": "^16.0.1",
+    "three": "^0.165.0"
   },
   "engines": {
     "node": ">=18"
