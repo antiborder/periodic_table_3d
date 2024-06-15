@@ -5,10 +5,15 @@ import { Vector3 } from "three"
 import { PerspectiveCamera } from "three"
 import Elements from "./Elements"
 
-// import './App.css';
-// import Elements from './Elements.js';
+type StructureProps = {
+  count: number
+  // characteristicCount: number
+  // numberOfCharacteristics: number
+  selectedAtomicNumber: number
+  // numberOfShapes: number
+}
 
-const Structure = (): React.ReactNode => {
+const Structure = (props: StructureProps): React.ReactNode => {
   const cameraPosition = [0, 0, 18]
 
   return (
@@ -27,13 +32,17 @@ const Structure = (): React.ReactNode => {
             args={[new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)]}
           />
         )}
-
-        <scene>
-          <Elements />
-        </scene>
+                <group
+                    rotation={[-Math.PI / 2, 0, 0]}
+                    position={[0, 8, 0]}
+                >
+          <Elements
+            selectedAtomicNumber={props.selectedAtomicNumber}
+            count = {props.count}
+          />
+                </group>
       </Canvas>
     </div>
   )
 }
 export default Structure
-//

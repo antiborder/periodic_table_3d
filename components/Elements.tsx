@@ -2,7 +2,11 @@ import React from "react"
 import Element from "./Element"
 import elements from "../constants/elements"
 
-const Elements = (): React.ReactNode => {
+type ElementsProps = {
+  selectedAtomicNumber: number
+  count: number
+}
+const Elements = (props: ElementsProps): React.ReactNode => {
   return (
     <>
       {[...Array(118)].map((_, i) => {
@@ -14,7 +18,7 @@ const Elements = (): React.ReactNode => {
             characteristicCount={0}
             numberOfShapes={5}
             shapesCount={0}
-            selectedAtomicNumber={1}
+            selectedAtomicNumber={props.selectedAtomicNumber}
             count={1000}
             // emissive={new THREE.Color('#000000')}
             // count={props.count}

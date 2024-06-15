@@ -7,7 +7,7 @@ import convert from "color-convert"
 import { Html } from "@react-three/drei"
 import Quadrilateral from "./Quadrilateral"
 // import { Euler } from '@react-three/fiber';
-import { Euler } from "three"
+import FocusFrame from "./FocusFrame"
 
 type ElementProps = {
   key: number
@@ -641,16 +641,16 @@ const Element = ({
               opacity={1}
             />
             {
-              // (props.selectedAtomicNumber === element.atomicNumber) &&
-              // <FocusFrame {...props}
-              //     points={[
-              //         [0, 0, 0],
-              //         [0, 0, -cardHeight],
-              //         [cardWidth, 0, -cardHeight],
-              //         [cardWidth, 0, 0]
-              //     ]}
-              //     color={getColor()}
-              // />
+              (props.selectedAtomicNumber === element.atomicNumber) &&
+              <FocusFrame {...props}
+                  points={[
+                      [0, 0, 0],
+                      [0, 0, -cardHeight],
+                      [cardWidth, 0, -cardHeight],
+                      [cardWidth, 0, 0]
+                  ]}
+                  color={getColor()}
+              />
             }
             <group rotation={[Math.PI / 2, 0, 0]}>
               <Text
