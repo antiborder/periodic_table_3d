@@ -5,7 +5,7 @@ import { BufferGeometry, BufferAttribute, Mesh, MeshBasicMaterial } from "three"
 type QuadrilateralProps = {
   points: number[][]
   color: string
-  opacity: number
+  opacity?: number
 }
 
 const Quadrilateral = (props: QuadrilateralProps): React.ReactNode => {

@@ -6,6 +6,8 @@ import Link from "next/link"
 import Date from "./components/date"
 import { getSortedPostsData } from "../lib/posts"
 import Structure from "../components/Structure"
+import SymbolPanel from "../components/SymbolPanel"
+import { useState } from "react"
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
@@ -25,16 +27,45 @@ type Props = {
 }
 
 const Home = ({ allPostsData }: Props): React.ReactNode => {
+  const numberOfShapes = 5
+  const numberOfCharacteristics = 5
+  const numberOfElements = 118
+
+
+  const [atomicNumber, setAtomicNumber] = useState(1)
+  const [count, setCount] = useState(1000)//(windowSize.width>800 ? 1000 : 1003)
+
+  function modulo(a, n) {
+    return ((a % n) + n) % n;
+  }
+
+  const handleAtomicNumberUp = () => {
+    setAtomicNumber(modulo(atomicNumber,numberOfElements)+1)
+  }
+
+  const handleAtomicNumberDown = () => {
+    setAtomicNumber(modulo(atomicNumber-2,numberOfElements)+1
+      )
+  }
+
+
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
+
+      <SymbolPanel
+            atomicNumber={atomicNumber}
+            onAtomicNumberUp={handleAtomicNumberUp}
+            onAtomicNumberDown={handleAtomicNumberDown}
+          />
+
       <Structure
-      // count={count}
+      count={count}
       // characteristicCount={characteristicCount}
       // numberOfCharacteristics={numberOfCharacteristics}
-      // selectedAtomicNumber={atomicNumber}
+      selectedAtomicNumber={atomicNumber}
       // numberOfShapes={numberOfShapes}
       // atmicNumber = {atomicNumber}
       // setAtomicNumber = {setAtomicNumber}
