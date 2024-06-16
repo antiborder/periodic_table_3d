@@ -59,9 +59,9 @@ const Element = ({
     let h
     let s
     let v
-    const tmp_number: number = 0
+
     switch (
-      tmp_number //(props.characteristicCount % props.numberOfCharacteristics) {
+      props.characteristicCount % props.numberOfCharacteristics
     ) {
       case 0:
         color =
