@@ -4,6 +4,8 @@ import elements from "../constants/elements"
 
 type ElementsProps = {
   selectedAtomicNumber: number
+  numberOfCharacteristics: number
+  CharacteristicCount: number
   count: number
 }
 const Elements = (props: ElementsProps): React.ReactNode => {
@@ -14,8 +16,8 @@ const Elements = (props: ElementsProps): React.ReactNode => {
           <Element
             key={i}
             atomicNumber={elements[(i + 1).toString()].atomicNumber}
-            numberOfCharacteristics={5}
-            characteristicCount={0}
+            numberOfCharacteristics={props.numberOfCharacteristics}
+            characteristicCount={props.CharacteristicCount}
             numberOfShapes={5}
             shapesCount={0}
             selectedAtomicNumber={props.selectedAtomicNumber}

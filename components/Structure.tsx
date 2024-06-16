@@ -7,8 +7,8 @@ import Elements from "./Elements"
 
 type StructureProps = {
   count: number
-  // characteristicCount: number
-  // numberOfCharacteristics: number
+  characteristicCount: number
+  numberOfCharacteristics: number
   selectedAtomicNumber: number
   // numberOfShapes: number
 }
@@ -39,6 +39,8 @@ const Structure = (props: StructureProps): React.ReactNode => {
           <Elements
             selectedAtomicNumber={props.selectedAtomicNumber}
             count = {props.count}
+            numberOfCharacteristics = {props.numberOfCharacteristics}
+            CharacteristicCount={props.characteristicCount}
           />
                 </group>
       </Canvas>
