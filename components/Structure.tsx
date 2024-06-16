@@ -11,6 +11,8 @@ type StructureProps = {
   numberOfCharacteristics: number
   selectedAtomicNumber: number
   // numberOfShapes: number
+  setIsModalVisible: (isModalVisible: boolean) => void
+  setAtomicNumber: (atomicNumber: number) => void
 }
 
 const Structure = (props: StructureProps): React.ReactNode => {
@@ -41,6 +43,8 @@ const Structure = (props: StructureProps): React.ReactNode => {
             count = {props.count}
             numberOfCharacteristics = {props.numberOfCharacteristics}
             CharacteristicCount={props.characteristicCount}
+            setIsModalVisible={props.setIsModalVisible}
+            setAtomicNumber={props.setAtomicNumber}
           />
                 </group>
       </Canvas>

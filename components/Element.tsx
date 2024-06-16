@@ -22,6 +22,8 @@ type ElementProps = {
   shapesCount: number
   selectedAtomicNumber: number
   count: number
+  setAtomicNumber: (number: number) => void
+  setIsModalVisible: (boolean: boolean) => void
 }
 
 type Num3 = [number, number, number]
@@ -606,10 +608,10 @@ const Element = ({
     //   }
   }
 
-  // const handleElementClick = () => {
-  //     props.setAtomicNumber(props.atomicNumber)
-  //     props.setIsModalVisible(1)
-  // }
+  const handleElementClick = () => {
+      props.setAtomicNumber(props.atomicNumber)
+      props.setIsModalVisible(true)
+  }
 
   // const handleDetailClick = () => {
   //     console.log('clicked')
@@ -622,7 +624,7 @@ const Element = ({
         onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
-        //   onClick={handleElementClick}
+          onClick={handleElementClick}
         rotation={transitionParameter.to((t) => getRotationAngle(t))[1]}
       >
         <group>

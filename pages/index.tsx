@@ -9,6 +9,7 @@ import Structure from "../components/Structure"
 import SymbolPanel from "../components/SymbolPanel"
 import { useState } from "react"
 import CharacteristicPanel from "../components/CharacteristicPanel"
+import ElementDetailModal from "../components/ElementDetailModal"
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
@@ -36,6 +37,7 @@ const Home = ({ allPostsData }: Props): React.ReactNode => {
   const [atomicNumber, setAtomicNumber] = useState(1)
   const [count, setCount] = useState(1000)//(windowSize.width>800 ? 1000 : 1003)
   const [characteristicCount, setCharacteristicCount] = useState(0)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const characteristic =
   characteristicCount % numberOfCharacteristics === 0 ? 'Block' :
@@ -92,10 +94,19 @@ const Home = ({ allPostsData }: Props): React.ReactNode => {
       selectedAtomicNumber={atomicNumber}
       // numberOfShapes={numberOfShapes}
       // atmicNumber = {atomicNumber}
-      // setAtomicNumber = {setAtomicNumber}
-      // setIsModalVisible = {setIsModalVisible}
+      setAtomicNumber = {setAtomicNumber}
+      setIsModalVisible = {setIsModalVisible}
       // modulo = {modulo}
       />
+
+{isModalVisible===true &&
+          <ElementDetailModal
+            setIsModalVisible={setIsModalVisible}
+            atomicNumber={atomicNumber}
+            />
+
+          }
+
     </Layout>
   )
 }
