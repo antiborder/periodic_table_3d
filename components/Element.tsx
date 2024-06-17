@@ -6,7 +6,6 @@ import elements from "../constants/elements"
 import convert from "color-convert"
 import { Html } from "@react-three/drei"
 import Quadrilateral from "./Quadrilateral"
-// import { Euler } from '@react-three/fiber';
 import FocusFrame from "./FocusFrame"
 
 type ElementProps = {
@@ -19,7 +18,6 @@ type ElementProps = {
   characteristicCount: number
   numberOfCharacteristics: number
   numberOfShapes: number
-  shapesCount: number
   selectedAtomicNumber: number
   count: number
   setAtomicNumber: (number: number) => void
@@ -62,9 +60,7 @@ const Element = ({
     let s
     let v
 
-    switch (
-      props.characteristicCount % props.numberOfCharacteristics
-    ) {
+    switch (props.characteristicCount % props.numberOfCharacteristics) {
       case 0:
         color =
           element.orbit.slice(-1) === "s"
@@ -116,6 +112,22 @@ const Element = ({
     }
     return color
   }
+
+  const getCoordinate = (t) => {
+    t = t % props.numberOfShapes
+    if (0 <= t && t <= 1) {
+        return getTransition0to1Coordinate(t)
+    } else if (1 < t && t <= 2) {
+        return getTransition1to2Coordinate(t)
+    } else if (2 < t && t <= 3) {
+        return getTransition2to3Coordinate(t)
+    } else if (3 < t && t <= 4) {
+        return getTransition3to4Coordinate(t)
+    } else if (4 < t && t <= 5) {
+        return getTransition4to5Coordinate(t)
+    }
+  }
+
   const getOpacity = () => {
     const DEFAULT_OPACITY = 0.7
     const tmp_number: number = 0
@@ -552,21 +564,7 @@ const Element = ({
     ]
   }
 
-  const getCoordinate = (t: number): Num3 => {
-    t = t % props.numberOfShapes
-    if (0 <= t && t <= 1) {
-      return getTransition0to1Coordinate(t)
-    } else if (1 < t && t <= 2) {
-      return getTransition1to2Coordinate(t)
-    } else if (2 < t && t <= 3) {
-      return getTransition2to3Coordinate(t)
-    } else if (3 < t && t <= 4) {
-      return getTransition3to4Coordinate(t)
-    } else if (4 < t && t <= 5) {
-      return getTransition4to5Coordinate(t)
-    }
-  }
-  const getTilt = (t: number): Num3 => {
+  const getTilt = (t: number): any => {
     t = t % props.numberOfShapes
     if (0 <= t && t <= 1) {
       return [0, 0, 0]
@@ -575,47 +573,42 @@ const Element = ({
     } else if (2 < t && t <= 3) {
       return [(-Math.PI / 2) * Math.pow(3 - t, 0.4), 0, 0]
     } else if (3 < t && t <= 4) {
-      // return [-Math.PI/2 * Math.pow(4-t,10) ,0,0]
-      return [0, 0, 0]
+      return [-Math.PI/2 * Math.pow(4-t,10) ,0,0]
+      // return [0, 0, 0]
     } else if (4 < t && t <= 5) {
       return [0, 0, 0]
     }
   }
 
-  const getRotationAngle = (t: number): [number, number, number] => {
+  const getRotationAngle = (t: number): any => {
     t = t % props.numberOfShapes
-    return [0, 0, 0]
-    //   if (t >= 0 && t <= 1) {
-    //       const theta1 = getTheta1down()
-    //       const baseTheta = theta0 + t * (theta1 - theta0)
+      if (t >= 0 && t <= 1) {
+          const theta1 = getTheta1down()
+          const baseTheta = theta0 + t * (theta1 - theta0)
 
-    //       return [0, 0, revalueTheta(baseTheta + Math.PI * 1.1 / 2) * t]
-    //   } else if (t > 1 && t <= 2) {
-    //       const theta1 = getTheta1up()
-    //       const baseTheta = theta1 + (t - 1) * (theta2 - theta1)
+          return [0, 0, revalueTheta(baseTheta + Math.PI * 1.1 / 2) * t]
+      } else if (t > 1 && t <= 2) {
+          const theta1 = getTheta1up()
+          const baseTheta = theta1 + (t - 1) * (theta2 - theta1)
 
-    //       return [0, 0, baseTheta + Math.PI * 1.1 / 2]
-    //   } else if (t > 2 && t <= 3) {
-    //       const baseTheta = theta2 + Math.pow((t - 2), 1 / 2) * (getTheta3down() - theta2)
-    //       return [0, 0, baseTheta + Math.PI * 1.1 / 2]
-    //   } else if (t > 3 && t <= 4) {
-    //       const revaluedTheta0 = theta0
+          return [0, 0, baseTheta + Math.PI * 1.1 / 2]
+      } else if (t > 2 && t <= 3) {
+          const baseTheta = theta2 + Math.pow((t - 2), 1 / 2) * (getTheta3down() - theta2)
+          return [0, 0, baseTheta + Math.PI * 1.1 / 2]
+      } else if (t > 3 && t <= 4) {
+          const revaluedTheta0 = theta0
 
-    //       return [0, 0, revalueTheta(getTheta3up() + Math.pow(t - 3, 2) * (revaluedTheta0 - getTheta3up()) + Math.PI * 1.1 / 2) * (4 - t)]
+          return [0, 0, revalueTheta(getTheta3up() + Math.pow(t - 3, 2) * (revaluedTheta0 - getTheta3up()) + Math.PI * 1.1 / 2) * (4 - t)]
 
-    //   } else {
-    //       return [0, 0, 0]
-    //   }
+      } else {
+          return [0, 0, 0]
+      }
   }
 
   const handleElementClick = () => {
-      props.setAtomicNumber(props.atomicNumber)
-      props.setIsModalVisible(true)
+    props.setAtomicNumber(props.atomicNumber)
+    props.setIsModalVisible(true)
   }
-
-  // const handleDetailClick = () => {
-  //     console.log('clicked')
-  // }
 
   return (
     <>
@@ -624,8 +617,8 @@ const Element = ({
         onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
-          onClick={handleElementClick}
-        rotation={transitionParameter.to((t) => getRotationAngle(t))[1]}
+        onClick={handleElementClick}
+        rotation = {transitionParameter.to((t) => getRotationAngle(t))[1]}
       >
         <group>
           <animated.mesh //{...props}
@@ -642,18 +635,18 @@ const Element = ({
               color={getColor()}
               opacity={1}
             />
-            {
-              (props.selectedAtomicNumber === element.atomicNumber) &&
-              <FocusFrame {...props}
-                  points={[
-                      [0, 0, 0],
-                      [0, 0, -cardHeight],
-                      [cardWidth, 0, -cardHeight],
-                      [cardWidth, 0, 0]
-                  ]}
-                  color={getColor()}
+            {props.selectedAtomicNumber === element.atomicNumber && (
+              <FocusFrame
+                {...props}
+                points={[
+                  [0, 0, 0],
+                  [0, 0, -cardHeight],
+                  [cardWidth, 0, -cardHeight],
+                  [cardWidth, 0, 0],
+                ]}
+                color={getColor()}
               />
-            }
+            )}
             <group rotation={[Math.PI / 2, 0, 0]}>
               <Text
                 position={[0.1, -0.15, 0.01]}
@@ -687,28 +680,6 @@ const Element = ({
               </Text>
             </group>
           </animated.mesh>
-
-          {/* //   <Html
-        //       zIndexRange={[100, 200]}
-        //       onClick={() => console.log('clicked')}
-        //   >
-        //       <div
-        //               onPointerOver={() => handleBubblePointerOver()}
-        //               onPointerOut={() => handleBubblePointerOut()}
-        //               // onClick = {()=>console.log('clicked')}
-        //           >
-        //               {
-        //                   (hovered || bubbleHovered) &&
-        //                   <ElementBubble
-        //                       {...props}
-        //                       backgroundColor={color}
-        //                       textColor={color}
-        //                       element={element}
-        //                       // onClick={handleElementClick}
-        //                   />
-        //               }
-        //           </div>
-        //   </Html> */}
         </group>
       </animated.mesh>
     </>
@@ -716,67 +687,3 @@ const Element = ({
 }
 
 export default Element
-
-// const handleDetailClick = () =>{
-//     console.log('clicked')
-// }
-
-// const ElementBubble = (props) => {
-
-//   return (
-//       <StyledElementBubble >
-//           <div onClick={props.onClick} style={{ textAlign: 'left', color: 'blue' }}>
-//               <span className='modalLink'>
-//                   詳細をみる
-//               </span>
-//           </div>
-//           <div style={{ textAlign: 'left' }}>
-//               {props.atomicNumber}
-//           </div>
-//           <div style={{ textAlign: 'center' }}>
-//               {props.element.name}
-//           </div>
-
-//           <div style={{ textAlign: 'left', marginLeft: '20px' }}>
-//               {Object.entries(props.element.electron).map(([key, value]) => (
-//                   <div key={key}>
-//                       {key}:&nbsp;&nbsp;&nbsp;&nbsp;
-//                       {/* <ul> */}
-//                       {Object.entries(value).map(([subKey, subValue]) => (
-//                           <span key={subKey}>{subValue}&nbsp;</span>
-//                       ))}
-//                       {/* </ul> */}
-//                   </div>
-//               ))}
-//           </div>
-
-//           <div
-//               className='colorRectangle'
-//               onClick={props.onElementClick}
-//           />
-//           <div onClick={props.onElementClick}>
-//               <span className='modalLink'>
-//               </span>
-//           </div>
-//       </StyledElementBubble>)
-// }
-
-// const StyledElementBubble = styled.div`
-//   position:absolute;
-//   top:40px;
-//   left:40px;
-//   width: 120px;
-//   background: #fff;
-//   border-radius: 0px 24px 24px 24px;
-//   font-size: 12px;
-//   padding: 4px;
-//   text-align:center;
-//   .modalLink{
-//       color:#0000FF;
-//       cursor: pointer;
-//       text-decoration: underline;
-//   }
-//   div{
-//       margin: 0 auto;
-//   }
-// `;

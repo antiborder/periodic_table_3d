@@ -5,6 +5,8 @@ import { set } from "date-fns"
 
 type ElementsProps = {
   selectedAtomicNumber: number
+  numberOfShapes: number
+  shapesCount: number
   numberOfCharacteristics: number
   CharacteristicCount: number
   count: number
@@ -21,14 +23,12 @@ const Elements = (props: ElementsProps): React.ReactNode => {
             atomicNumber={elements[(i + 1).toString()].atomicNumber}
             numberOfCharacteristics={props.numberOfCharacteristics}
             characteristicCount={props.CharacteristicCount}
-            numberOfShapes={5}
-            shapesCount={0}
+            numberOfShapes={props.numberOfShapes}
             selectedAtomicNumber={props.selectedAtomicNumber}
-            count={1000}
+            count={props.count}
             setAtomicNumber={props.setAtomicNumber}
             setIsModalVisible={props.setIsModalVisible}
             // emissive={new THREE.Color('#000000')}
-            // count={props.count}
           />
         )
       })}

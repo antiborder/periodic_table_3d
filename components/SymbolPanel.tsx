@@ -1,54 +1,43 @@
-import styled from 'styled-components';
-import elements from '../constants/elements'
+import styled from "styled-components"
+import elements from "../constants/elements"
 
 type SymbolPanelProps = {
-    atomicNumber: number
-    onAtomicNumberUp: () => void
-    onAtomicNumberDown: () => void
-    }
+  atomicNumber: number
+  onAtomicNumberUp: () => void
+  onAtomicNumberDown: () => void
+}
 
 const SymbolPanel = (props: SymbolPanelProps): React.ReactNode => {
-
-    const selectedElement = elements[props.atomicNumber]
+  const selectedElement = elements[props.atomicNumber]
 
   return (
-
     <StyledSymbolPanel
-      onClick={(event) => { event.stopPropagation() }}
+      onClick={(event) => {
+        event.stopPropagation()
+      }}
     >
-      <div className='modal-content'>
-        <div className='symbolBox'>
-
+      <div className="modal-content">
+        <div className="symbolBox">
           <div>
-            <button className='atomicNumberDownButton'
-            onClick={props.onAtomicNumberDown}>
-              {'◀︎'}
-          </button>
-          </div>
-          <div className='symbolLabel'>
-            <button
-              className='symbolButton'
-              onClick={props.onAtomicNumberUp}
-            >
-            {selectedElement.symbol}
+            <button className="atomicNumberDownButton" onClick={props.onAtomicNumberDown}>
+              {"◀︎"}
             </button>
-            </div>
-            <div>
-          <button className='atomicNumberUpButton'
-            onClick={props.onAtomicNumberUp}
-          >
-            {'▶︎'}
-          </button>
+          </div>
+          <div className="symbolLabel">
+            <button className="symbolButton" onClick={props.onAtomicNumberUp}>
+              {selectedElement.symbol}
+            </button>
+          </div>
+          <div>
+            <button className="atomicNumberUpButton" onClick={props.onAtomicNumberUp}>
+              {"▶︎"}
+            </button>
           </div>
         </div>
-        <div className='atomicNumber'>
-              {props.atomicNumber}
-           </div>
-
+        <div className="atomicNumber">{props.atomicNumber}</div>
       </div>
-
     </StyledSymbolPanel>
-  );
+  )
 }
 
 const StyledSymbolPanel = styled.div`
@@ -125,6 +114,6 @@ const StyledSymbolPanel = styled.div`
   }
 
 
-`;
+`
 
-export default SymbolPanel;
+export default SymbolPanel

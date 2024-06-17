@@ -10,7 +10,7 @@ type StructureProps = {
   characteristicCount: number
   numberOfCharacteristics: number
   selectedAtomicNumber: number
-  // numberOfShapes: number
+  numberOfShapes: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
 }
@@ -34,19 +34,18 @@ const Structure = (props: StructureProps): React.ReactNode => {
             args={[new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)]}
           />
         )}
-                <group
-                    rotation={[-Math.PI / 2, 0, 0]}
-                    position={[0, 8, 0]}
-                >
+        <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 8, 0]}>
           <Elements
             selectedAtomicNumber={props.selectedAtomicNumber}
-            count = {props.count}
-            numberOfCharacteristics = {props.numberOfCharacteristics}
+            count={props.count}
+            numberOfShapes={props.numberOfShapes}
+            shapesCount={props.count}
+            numberOfCharacteristics={props.numberOfCharacteristics}
             CharacteristicCount={props.characteristicCount}
             setIsModalVisible={props.setIsModalVisible}
             setAtomicNumber={props.setAtomicNumber}
           />
-                </group>
+        </group>
       </Canvas>
     </div>
   )

@@ -1,42 +1,45 @@
 import styled from "styled-components"
-// import elements from '../constants/elements'
 
-type CharacteristicPanelProps = {
+type ShapePanelProps = {
   // atomicNumber: number
-  characteristic: string
-  onCharacteristicUp: () => void
-  onCharacteristicDown: () => void
+  shape: string
+  onShapeUp: () => void
+  onShapeDown: () => void
 }
 
-function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
+const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
   // const selectedElement = elements[props.atomicNumber]
 
   return (
-    <StyledCharacteristicPanel
+    <StyledShapePanel
       onClick={(event) => {
         event.stopPropagation()
       }}
     >
       <div className="modal-content">
-        <div className="characteristicBox">
-          <div className="characteristicLabel"> 色：</div>
-          <button className="characteristicDownButton" onClick={props.onCharacteristicDown}>
+        <div className="shapeBox">
+          <div className="shapeLabel"> 形：</div>
+          <button className="shapeDownButton" onClick={props.onShapeDown}>
             {"◀︎"}
+            {/* </button>
+          <button
+            className='shape'
+            onClick={props.onShapeUp}
+          > */}
           </button>
-
-          <button className="characteristicUpButton" onClick={props.onCharacteristicUp}>
-            {props.characteristic}
+          <button className="shapeUpButton" onClick={props.onShapeUp}>
+            {props.shape}
             {"▶︎"}
           </button>
         </div>
       </div>
-    </StyledCharacteristicPanel>
+    </StyledShapePanel>
   )
 }
 
-const StyledCharacteristicPanel = styled.div`
+const StyledShapePanel = styled.div`
   position: fixed;
-  top: 50px;
+  top: 8px;
   right: 8px;
   z-index: 800;
   width: 280px;
@@ -55,31 +58,31 @@ const StyledCharacteristicPanel = styled.div`
   .modal-content::-webkit-scrollbar{
     display: none;
   }
-  .characteristicLabel{
+  .shapeLabel{
     padding:0px;
     font-size:16px;
     padding-left:4px;
   }
-  .characteristicBox{
+  .shapeBox{
     display:flex;
     justify-content:center;
     align-items:center;
     margin:4px;
   }
-  .characteristicDownButton{
+  .shapeDownButton{
     width:50px;
     background-color: white;
     opacity: 0.7;
-    text-align:right;
+    font-size:20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
-    font-size:20px;
-    cursor: pointer;
 
+    margin:0px;
+    cursor: pointer;
   }
-  .characteristicUpButton{
+  .shapeUpButton{
     width:350px;
     background-color: white;
     opacity: 0.7;
@@ -88,11 +91,12 @@ const StyledCharacteristicPanel = styled.div`
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
+    margin:0px;
     font-size:20px;
     cursor: pointer;
   }
 
-  .characteristic{
+  .shape{
     width:240px;
     background-color:transparent;
     padding:0px;
@@ -104,4 +108,4 @@ const StyledCharacteristicPanel = styled.div`
 
 `
 
-export default CharacteristicPanel
+export default ShapePanel
