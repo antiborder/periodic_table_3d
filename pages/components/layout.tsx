@@ -30,9 +30,7 @@ const Layout = ({ children, home }: LayoutProps): React.ReactNode => {
       </Head>
       <header className={styles.header}>
         {home ? (
-          <>
-          {/* <div></div> */}
-          </>
+          <>{/* <div></div> */}</>
         ) : (
           <>
             <Link href="/">

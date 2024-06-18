@@ -18,7 +18,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/components/date.tsxte.tsx",
-    "pages/components/date.tsxte.tsx"
-, "components/Element.jsx"  ],
+    "pages/components/date.tsxte.tsx",
+    "components/Element.jsx"
+, "funcs/coordinateFuncs.js"  ],
   "exclude": ["node_modules"]
 }

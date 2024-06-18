@@ -1,51 +1,24 @@
 import React, { useState } from "react"
 import { config, useSpring, animated } from "@react-spring/three"
-import styled from "styled-components"
 import { Text } from "@react-three/drei"
 import elements from "../constants/elements"
 import convert from "color-convert"
-import { Html } from "@react-three/drei"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
-
-// type ElementProps = {
-//   key: number
-//   size?: number
-//   radius?: number
-//   color?: string
-//   opacity?: number
-//   atomicNumber: number
-//   characteristicCount: number
-//   numberOfCharacteristics: number
-//   numberOfShapes: number
-//   selectedAtomicNumber: number
-//   count: number
-//   setAtomicNumber: (number: number) => void
-//   setIsModalVisible: (boolean: boolean) => void
-// }
-
-// type Num3 = [number, number, number]
+import { getCoordinate, getRotationAngle, getTilt } from "../funcs/coordinateFuncs"
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Element = ({ size = 0.4, radius = 0, color = '#000000', opacity = 1, ...props }) => {
-  const SPIRAL_RADIUS_P = 1.8
-  const SPIRAL_RADIUS_D = 4
-  const SPIRAL_RADIUS_F = 7
-
-  const ELEMENTOUCH_RADIUS_P = 2.0
-  const ELEMENTOUCH_RADIUS_D = 2.4
-  const ELEMENTOUCH_RADIUS_F = 3.6
+const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...props }) => {
   const element = elements[props.atomicNumber.toString()]
 
   const [hovered, setHovered] = useState(false)
-  const [, setBubbleHovered] = useState(false)
   const cardWidth = 0.8
   const cardHeight = 0.8
 
   const { transitionParameter } = useSpring({
     transitionParameter: props.count,
     config: { ...config.wobbly, duration: 2500 },
-  })
+});
 
   const getColor = () => {
     let max = 0
@@ -108,26 +81,9 @@ const Element = ({ size = 0.4, radius = 0, color = '#000000', opacity = 1, ...pr
     return color
   }
 
-  const getCoordinate = (t) => {
-    t = t % props.numberOfShapes
-    if (0 <= t && t <= 1) {
-        return getTransition0to1Coordinate(t)
-    } else if (1 < t && t <= 2) {
-        return getTransition1to2Coordinate(t)
-    } else if (2 < t && t <= 3) {
-        return getTransition2to3Coordinate(t)
-    } else if (3 < t && t <= 4) {
-        return getTransition3to4Coordinate(t)
-    } else if (4 < t && t <= 5) {
-        return getTransition4to5Coordinate(t)
-    }
-  }
-
   const getOpacity = () => {
     const DEFAULT_OPACITY = 0.7
-    switch (
-      props.characteristicCount % props.numberOfCharacteristics
-    ) {
+    switch (props.characteristicCount % props.numberOfCharacteristics) {
       case 0:
         opacity = DEFAULT_OPACITY
         break
@@ -149,206 +105,6 @@ const Element = ({ size = 0.4, radius = 0, color = '#000000', opacity = 1, ...pr
     return opacity
   }
 
-  const getOrbitNumber = (orbit) => {
-    let orbitNumber = 0
-    switch (orbit) {
-      case "s":
-        orbitNumber = 1
-        break
-      case "p":
-        orbitNumber = 2
-        break
-      case "d":
-        orbitNumber = 3
-        break
-      case "f":
-        orbitNumber = 4
-        break
-      default:
-    }
-    return orbitNumber
-  }
-
-  const cylindricalToCartesian = ([radius, theta, z]) => {
-    return [radius * Math.cos(theta), radius * Math.sin(theta), z]
-  }
-
-  const cartesianToCylindrical = ([x, y, z]) => {
-    return [Math.sqrt(x * x + y * y), Math.atan2(y, x), z]
-  }
-
-  const getTableBasePosition = (atomicNumber) => {
-    return [element.tableColumn, 0, -elements[atomicNumber.toString()].tableRow]
-  }
-
-  const translateTablePosition = (position) => {
-    return [position[0] - 13, position[1] - 6, position[2]]
-  }
-
-  const getTablePosition = (atomicNumber) => {
-    return translateTablePosition(getTableBasePosition(atomicNumber))
-  }
-
-  const getOrbitalPositionX = () => {
-    let x = 0
-    let shellNumber = parseInt(element.orbit.slice(0, 1))
-    let orbitNumber = getOrbitNumber(element.orbit.slice(-1))
-    switch (orbitNumber) {
-      case 1:
-        if (element.atomicNumber === 2 || element.atomicNumber === 1) {
-          x = element.spiralColumn - 4
-        } else {
-          x = element.spiralColumn - 6
-        }
-        break
-      case 2:
-        if (shellNumber === 2 || shellNumber === 3) {
-          x = element.spiralColumn % 8
-        } else {
-          x = element.spiralColumn % 10
-        }
-        break
-      case 3:
-        if (
-          props.atomicNumber === 21 ||
-          props.atomicNumber === 39 ||
-          props.atomicNumber === 71 ||
-          props.atomicNumber === 103
-        ) {
-          x = 0
-        } else {
-          x = element.spiralColumn
-        }
-        break
-      default:
-        if (props.atomicNumber === 57 || props.atomicNumber === 89) {
-          x = 0
-        } else {
-          x = element.spiralColumn
-        }
-    }
-    return x
-  }
-
-  const orbitalPosition = [
-    getOrbitalPositionX(),
-    +2 * getOrbitNumber(element.orbit.slice(-1)) - 5,
-    -2 * parseInt(element.orbit.slice(0)),
-  ]
-
-  const { scale } = useSpring({
-    scale: hovered ? 1.8 : 1,
-    config: config.wobbly,
-  })
-
-  const handlePointerOver = () => {
-    setHovered(true)
-  }
-
-  const handlePointerOut = () => {
-    setHovered(false)
-  }
-
-  const getElementouchPeriod = () => {
-    let period = 0
-    switch (element["spiralRow"]) {
-      case 4:
-      case 6:
-      case 9:
-      case 12:
-        period = 10
-        break
-      case 8:
-      case 11:
-        period = 14
-        break
-      default:
-        period = 8
-    }
-    return period
-  }
-
-  const getSpiralPeriod = () => {
-    let period = 0
-    switch (element["tableRow"]) {
-      case 2:
-      case 3:
-        period = 8
-        break
-      case 4:
-      case 5:
-        period = 18
-        break
-      case 6:
-      case 7:
-      case 9:
-      case 10:
-        period = 32
-        break
-      default:
-        period = 8
-    }
-    return period
-  }
-
-  const radius0 = cartesianToCylindrical(getTablePosition(props.atomicNumber))[0]
-  const theta0 = cartesianToCylindrical(getTablePosition(props.atomicNumber))[1]
-  const z0 = cartesianToCylindrical(getTablePosition(props.atomicNumber))[2]
-
-  const getRadius1 = () => {
-    let radius = 0
-    switch (element["tableRow"]) {
-      case 4:
-      case 5:
-        radius = SPIRAL_RADIUS_D
-        break
-      case 6:
-      case 7:
-        radius = SPIRAL_RADIUS_F
-        break
-      case 9:
-      case 10:
-        radius = SPIRAL_RADIUS_F
-        break
-      default:
-        radius = SPIRAL_RADIUS_P
-    }
-    return radius
-  }
-  const getTheta1down = () => {
-    let baseTheta = 0
-    switch (element["tableRow"]) {
-      case 1:
-      case 2:
-      case 3:
-        baseTheta =
-          element.tableColumn <= 2
-            ? ((element.tableColumn - 3.5) / getSpiralPeriod()) * 2 * Math.PI
-            : ((element.tableColumn - 13.5) / getSpiralPeriod()) * 2 * Math.PI
-        break
-      case 4:
-      case 5:
-        baseTheta = ((element.tableColumn - 6) / 18) * 2 * Math.PI
-        break
-      case 6:
-      case 7:
-        baseTheta =
-          element.tableColumn <= 2
-            ? ((element.tableColumn - 9.5) / getSpiralPeriod()) * 2 * Math.PI
-            : ((element.tableColumn + 4.5) / getSpiralPeriod()) * 2 * Math.PI
-        break
-      case 9:
-      case 10:
-        baseTheta = ((element.tableColumn - 9.5) / getSpiralPeriod()) * 2 * Math.PI
-
-        break
-      default:
-        baseTheta = element.tableColumn - 1
-    }
-    // let baseTheta = element.tableColumn - 1 % getSpiralPeriod()
-    let adjustedTheta = baseTheta //- Math.PI * 4.1 / 8
-    return adjustedTheta
-  }
   const getWinding = () => {
     let winding = 0
     winding =
@@ -366,248 +122,39 @@ const Element = ({ size = 0.4, radius = 0, color = '#000000', opacity = 1, ...pr
               : element["winding"]
     return winding
   }
-  const getTheta1up = () => {
-    return getTheta1down()
-  }
-  const z1 =
-    element.tableRow <= 5
-      ? -element.tableRow - element.tableColumn / 18
-      : element.tableRow >= 8
-        ? -element.tableRow + 3 - element.tableColumn / 32
-        : element.tableColumn <= 2
-          ? -element.tableRow - element.tableColumn / 32
-          : -element.tableRow - (element.tableColumn + 14) / 32
-  const radius2 =
-    element["tableRow"] <= 7
-      ? element["tableRow"] + 2 + element["tableColumn"] / 18
-      : element["tableRow"] - 1 + element["tableColumn"] / 32
-  const theta2 =
-    element["tableRow"] <= 7
-      ? element["tableColumn"] <= 2
-        ? (element["tableColumn"] / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-        : ((element["tableColumn"] + 14) / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-      : (element["tableColumn"] / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-  const z2 = -12
-
-  const getRadius3 = () => {
-    let radius = 0
-    switch (element["spiralRow"]) {
-      case 4:
-      case 6:
-      case 9:
-      case 12:
-        radius = ELEMENTOUCH_RADIUS_D
-        break
-      case 8:
-      case 11:
-        radius = ELEMENTOUCH_RADIUS_F
-        break
-      default:
-        radius = ELEMENTOUCH_RADIUS_P
-    }
-    return radius
-  }
-  const getTheta3down = () => {
-    let baseTheta = element.spiralColumn - (1 % getElementouchPeriod())
-    let adjustedTheta =
-      (baseTheta / getElementouchPeriod()) * 2 * Math.PI -
-      (Math.PI * 4.1) / 8 +
-      Math.PI -
-      2 * Math.PI * element["winding"]
-    return adjustedTheta
-  }
-  const getTheta3up = () => {
-    let winding = 0
-    switch (element["orbit"].slice(-1)) {
-      case "s":
-        winding = -1
-        break
-      case "p":
-        winding = getOrbitalPositionX() === 0 ? -2 : -1
-        break
-      case "d":
-        winding = getOrbitalPositionX() === 0 ? -2 : -1
-        break
-      case "f":
-        winding = getOrbitalPositionX() === 0 ? -2 : -1
-        break
-      default:
-    }
-
-    let baseTheta = element.spiralColumn - (1 % getElementouchPeriod())
-    let adjustedTheta =
-      (baseTheta / getElementouchPeriod()) * 2 * Math.PI -
-      (Math.PI * 4.1) / 8 +
-      Math.PI +
-      2 * Math.PI * winding
-    return adjustedTheta
-  }
-  const z3 = -element.spiralRow - element.spiralColumn / getElementouchPeriod()
-
-  const radius4 = cartesianToCylindrical(orbitalPosition)[0]
-  const theta4 = cartesianToCylindrical(orbitalPosition)[1]
-  const z4 = cartesianToCylindrical(orbitalPosition)[2]
-
-  const revalueTheta = (theta) => {
-    return Math.PI < theta ? theta - 2 * Math.PI : theta
-  }
-
-  const getTransition0to1Coordinate = (t) => {
-    const theta1 = getTheta1down()
-    const distance = getRadius1() - ELEMENTOUCH_RADIUS_P
-    const cartesianCoordinate = cylindricalToCartesian([
-      radius0 + t * (getRadius1() - radius0),
-      theta0 + t * (theta1 - theta0),
-      z0 + t * (z1 - z0),
-    ])
-    const translatedCoordinate = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-  }
-
-  const getTransition1to2Coordinate = (t) => {
-    const theta1 = getTheta1up()
-    const distance = getRadius1() - ELEMENTOUCH_RADIUS_P
-    const cartesianCoordinate = cylindricalToCartesian([
-      getRadius1() + (t - 1) * (radius2 - getRadius1()),
-      theta1 + (t - 1) * (theta2 - theta1),
-      z1 + (t - 1) * (z2 - z1),
-    ])
-    const translatedCoordinate = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-  }
-  // const getTransition1to2Coordinate = (t) => {
-  //     const theta1 = getTheta1up()
-  //     const distance = getRadius1() - ELEMENTOUCH_RADIUS_P
-  //     const cartesianCoordinate = cylindricalToCartesian([
-  //         getRadius1() + (t - 1) * (radius2 - getRadius1()),
-  //         theta1 + (t - 1) * (theta2 - theta1),
-  //         z1 + (t - 1) * (z2 - z1)
-  //     ])
-  //     const translatedCoordinate = [cartesianCoordinate[0], cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance, cartesianCoordinate[2]]
-  //     return translatedCoordinate
-  // }
-  const getTransition2to3Coordinate = (t) => {
-    const distance = getRadius3() - ELEMENTOUCH_RADIUS_P
-    const cartesianCoordinate = cylindricalToCartesian([
-      radius2 + (t - 2) * (getRadius3() - radius2),
-      theta2 + Math.pow(t - 2, 1) * (getTheta3down() - theta2),
-      z2 + (t - 2) * (z3 - z2),
-    ])
-    const translatedCoordinate = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-
-    // return [
-    //     orbitalPosition[0] + (t - 2) * (getCircularPosition(props.atomicNumber)[0] - orbitalPosition[0]),
-    //     orbitalPosition[1] + (t - 2) * (getCircularPosition(props.atomicNumber)[1] - orbitalPosition[1]),
-    //     orbitalPosition[2] + (t - 2) * (getCircularPosition(props.atomicNumber)[2] - orbitalPosition[2])
-    // ]
-  }
-
-  const getTransition3to4Coordinate = (t) => {
-    const distance = getRadius3() - ELEMENTOUCH_RADIUS_P
-    const revaluedTheta0 = theta0 < (1 * Math.PI) / 2 ? theta0 + 2 * Math.PI : theta0
-    const cartesianCoordinate = cylindricalToCartesian([
-      getRadius3() + Math.pow(t - 3, 0.5) * (radius4 - getRadius3()),
-      getTheta3up() + Math.pow(t - 3, 0.7) * (theta4 - getTheta3up()),
-      z3 + (t - 3) * (z4 - z3),
-    ])
-    const translatedCoordinate = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] - Math.abs(4 - t) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-  }
-
-  // const getTransition3to4Coordinate = (t) => {
-  //     const revaluedTheta0 = theta0 < 1*Math.PI/2 ? theta0 + 2 * Math.PI : theta0
-  //     const cartesianCoordinate = cylindricalToCartesian([
-  //         radius3 + (t-3) * (radius0 - radius3),
-  //         theta3 + Math.pow(t-3,3)* (revaluedTheta0 - theta3),
-  //         z3 + (t-3) * (z0 - z3)
-  //     ])
-  //     return cartesianCoordinate
-  // }
-
-  const getTransition4to5Coordinate = (t) => {
-    const tablePosition = getTablePosition(element["atomicNumber"])
-    return [
-      orbitalPosition[0] + (t - 4) * (tablePosition[0] - orbitalPosition[0]),
-      orbitalPosition[1] + (t - 4) * (tablePosition[1] - orbitalPosition[1]),
-      orbitalPosition[2] + (t - 4) * (tablePosition[2] - orbitalPosition[2]),
-    ]
-  }
-
-  const getTilt = (t) => {
-    t = t % props.numberOfShapes
-    if (0 <= t && t <= 1) {
-      return [0, 0, 0]
-    } else if (1 < t && t <= 2) {
-      return [(-Math.PI / 2) * Math.pow(t - 1, 10), 0, 0]
-    } else if (2 < t && t <= 3) {
-      return [(-Math.PI / 2) * Math.pow(3 - t, 0.4), 0, 0]
-    } else if (3 < t && t <= 4) {
-      return [0, 0, 0]
-    } else if (4 < t && t <= 5) {
-      return [0, 0, 0]
-    }
-  }
-
-  const getRotationAngle = (t) => {
-    t = t % props.numberOfShapes
-      if (t >= 0 && t <= 1) {
-          const theta1 = getTheta1down()
-          const baseTheta = theta0 + t * (theta1 - theta0)
-
-          return [0, 0, revalueTheta(baseTheta + Math.PI * 1.1 / 2) * t]
-      } else if (t > 1 && t <= 2) {
-          const theta1 = getTheta1up()
-          const baseTheta = theta1 + (t - 1) * (theta2 - theta1)
-
-          return [0, 0, baseTheta + Math.PI * 1.1 / 2]
-      } else if (t > 2 && t <= 3) {
-          const baseTheta = theta2 + Math.pow((t - 2), 1 / 2) * (getTheta3down() - theta2)
-          return [0, 0, baseTheta + Math.PI * 1.1 / 2]
-      } else if (t > 3 && t <= 4) {
-          const revaluedTheta0 = theta0
-
-          return [0, 0, revalueTheta(getTheta3up() + Math.pow(t - 3, 2) * (revaluedTheta0 - getTheta3up()) + Math.PI * 1.1 / 2) * (4 - t)]
-
-      } else {
-          return [0, 0, 0]
-      }
-  }
 
   const handleElementClick = () => {
     props.setAtomicNumber(props.atomicNumber)
     props.setIsModalVisible(true)
   }
 
+  const handlePointerOver = () => {
+    setHovered(true)
+  }
+
+  const handlePointerOut = () => {
+    setHovered(false)
+  }
+
+
+  const { scale } = useSpring({
+    scale: hovered ? 1.8 : 1,
+    config: config.wobbly,
+  })
+
   return (
     <>
       <animated.mesh //{...props}
-        position={transitionParameter.to((t) => getCoordinate(t))}
+        position={transitionParameter.to((count) => getCoordinate(count, props.atomicNumber))}
         onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
-        rotation = {transitionParameter.to((t) => getRotationAngle(t))}
+        rotation={transitionParameter.to((count) => getRotationAngle(count,  props.atomicNumber))}
       >
         <group>
           <animated.mesh //{...props}
-            rotation={transitionParameter.to((t) => getTilt(t))}
+            rotation={transitionParameter.to((count) => getTilt(count))}
           >
             <Quadrilateral
               {...props}
