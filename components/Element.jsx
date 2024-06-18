@@ -8,31 +8,26 @@ import { Html } from "@react-three/drei"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
 
-type ElementProps = {
-  key: number
-  size?: number
-  radius?: number
-  color?: string
-  opacity?: number
-  atomicNumber: number
-  characteristicCount: number
-  numberOfCharacteristics: number
-  numberOfShapes: number
-  selectedAtomicNumber: number
-  count: number
-  setAtomicNumber: (number: number) => void
-  setIsModalVisible: (boolean: boolean) => void
-}
+// type ElementProps = {
+//   key: number
+//   size?: number
+//   radius?: number
+//   color?: string
+//   opacity?: number
+//   atomicNumber: number
+//   characteristicCount: number
+//   numberOfCharacteristics: number
+//   numberOfShapes: number
+//   selectedAtomicNumber: number
+//   count: number
+//   setAtomicNumber: (number: number) => void
+//   setIsModalVisible: (boolean: boolean) => void
+// }
 
-type Num3 = [number, number, number]
+// type Num3 = [number, number, number]
 
-const Element = ({
-  size = 0.4,
-  radius = 0,
-  color = "#000000",
-  opacity = 1,
-  ...props
-}: ElementProps): React.ReactNode => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const Element = ({ size = 0.4, radius = 0, color = '#000000', opacity = 1, ...props }) => {
   const SPIRAL_RADIUS_P = 1.8
   const SPIRAL_RADIUS_D = 4
   const SPIRAL_RADIUS_F = 7
@@ -130,9 +125,8 @@ const Element = ({
 
   const getOpacity = () => {
     const DEFAULT_OPACITY = 0.7
-    const tmp_number: number = 0
     switch (
-      tmp_number //(props.characteristicCount % props.numberOfCharacteristics) {
+      props.characteristicCount % props.numberOfCharacteristics
     ) {
       case 0:
         opacity = DEFAULT_OPACITY
@@ -175,23 +169,23 @@ const Element = ({
     return orbitNumber
   }
 
-  const cylindricalToCartesian = ([radius, theta, z]: Num3): Num3 => {
+  const cylindricalToCartesian = ([radius, theta, z]) => {
     return [radius * Math.cos(theta), radius * Math.sin(theta), z]
   }
 
-  const cartesianToCylindrical = ([x, y, z]: Num3): Num3 => {
+  const cartesianToCylindrical = ([x, y, z]) => {
     return [Math.sqrt(x * x + y * y), Math.atan2(y, x), z]
   }
 
-  const getTableBasePosition = (atomicNumber: Number): Num3 => {
+  const getTableBasePosition = (atomicNumber) => {
     return [element.tableColumn, 0, -elements[atomicNumber.toString()].tableRow]
   }
 
-  const translateTablePosition = (position: Num3): Num3 => {
+  const translateTablePosition = (position) => {
     return [position[0] - 13, position[1] - 6, position[2]]
   }
 
-  const getTablePosition = (atomicNumber: number): Num3 => {
+  const getTablePosition = (atomicNumber) => {
     return translateTablePosition(getTableBasePosition(atomicNumber))
   }
 
@@ -236,7 +230,7 @@ const Element = ({
     return x
   }
 
-  const orbitalPosition: Num3 = [
+  const orbitalPosition = [
     getOrbitalPositionX(),
     +2 * getOrbitNumber(element.orbit.slice(-1)) - 5,
     -2 * parseInt(element.orbit.slice(0)),
@@ -253,14 +247,6 @@ const Element = ({
 
   const handlePointerOut = () => {
     setHovered(false)
-  }
-
-  const handleBubblePointerOver = () => {
-    setBubbleHovered(true)
-  }
-
-  const handleBubblePointerOut = () => {
-    setBubbleHovered(false)
   }
 
   const getElementouchPeriod = () => {
@@ -466,7 +452,7 @@ const Element = ({
     return Math.PI < theta ? theta - 2 * Math.PI : theta
   }
 
-  const getTransition0to1Coordinate = (t: number): Num3 => {
+  const getTransition0to1Coordinate = (t) => {
     const theta1 = getTheta1down()
     const distance = getRadius1() - ELEMENTOUCH_RADIUS_P
     const cartesianCoordinate = cylindricalToCartesian([
@@ -474,7 +460,7 @@ const Element = ({
       theta0 + t * (theta1 - theta0),
       z0 + t * (z1 - z0),
     ])
-    const translatedCoordinate: Num3 = [
+    const translatedCoordinate = [
       cartesianCoordinate[0],
       cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
       cartesianCoordinate[2],
@@ -482,7 +468,7 @@ const Element = ({
     return translatedCoordinate
   }
 
-  const getTransition1to2Coordinate = (t: number): Num3 => {
+  const getTransition1to2Coordinate = (t) => {
     const theta1 = getTheta1up()
     const distance = getRadius1() - ELEMENTOUCH_RADIUS_P
     const cartesianCoordinate = cylindricalToCartesian([
@@ -490,7 +476,7 @@ const Element = ({
       theta1 + (t - 1) * (theta2 - theta1),
       z1 + (t - 1) * (z2 - z1),
     ])
-    const translatedCoordinate: Num3 = [
+    const translatedCoordinate = [
       cartesianCoordinate[0],
       cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
       cartesianCoordinate[2],
@@ -508,14 +494,14 @@ const Element = ({
   //     const translatedCoordinate = [cartesianCoordinate[0], cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance, cartesianCoordinate[2]]
   //     return translatedCoordinate
   // }
-  const getTransition2to3Coordinate = (t: number) => {
+  const getTransition2to3Coordinate = (t) => {
     const distance = getRadius3() - ELEMENTOUCH_RADIUS_P
     const cartesianCoordinate = cylindricalToCartesian([
       radius2 + (t - 2) * (getRadius3() - radius2),
       theta2 + Math.pow(t - 2, 1) * (getTheta3down() - theta2),
       z2 + (t - 2) * (z3 - z2),
     ])
-    const translatedCoordinate: Num3 = [
+    const translatedCoordinate = [
       cartesianCoordinate[0],
       cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
       cartesianCoordinate[2],
@@ -529,7 +515,7 @@ const Element = ({
     // ]
   }
 
-  const getTransition3to4Coordinate = (t: number): Num3 => {
+  const getTransition3to4Coordinate = (t) => {
     const distance = getRadius3() - ELEMENTOUCH_RADIUS_P
     const revaluedTheta0 = theta0 < (1 * Math.PI) / 2 ? theta0 + 2 * Math.PI : theta0
     const cartesianCoordinate = cylindricalToCartesian([
@@ -537,7 +523,7 @@ const Element = ({
       getTheta3up() + Math.pow(t - 3, 0.7) * (theta4 - getTheta3up()),
       z3 + (t - 3) * (z4 - z3),
     ])
-    const translatedCoordinate: Num3 = [
+    const translatedCoordinate = [
       cartesianCoordinate[0],
       cartesianCoordinate[1] - Math.abs(4 - t) * distance,
       cartesianCoordinate[2],
@@ -555,8 +541,8 @@ const Element = ({
   //     return cartesianCoordinate
   // }
 
-  const getTransition4to5Coordinate = (t: number): Num3 => {
-    const tablePosition: Num3 = getTablePosition(element["atomicNumber"])
+  const getTransition4to5Coordinate = (t) => {
+    const tablePosition = getTablePosition(element["atomicNumber"])
     return [
       orbitalPosition[0] + (t - 4) * (tablePosition[0] - orbitalPosition[0]),
       orbitalPosition[1] + (t - 4) * (tablePosition[1] - orbitalPosition[1]),
@@ -564,7 +550,7 @@ const Element = ({
     ]
   }
 
-  const getTilt = (t: number): any => {
+  const getTilt = (t) => {
     t = t % props.numberOfShapes
     if (0 <= t && t <= 1) {
       return [0, 0, 0]
@@ -573,14 +559,13 @@ const Element = ({
     } else if (2 < t && t <= 3) {
       return [(-Math.PI / 2) * Math.pow(3 - t, 0.4), 0, 0]
     } else if (3 < t && t <= 4) {
-      return [-Math.PI/2 * Math.pow(4-t,10) ,0,0]
-      // return [0, 0, 0]
+      return [0, 0, 0]
     } else if (4 < t && t <= 5) {
       return [0, 0, 0]
     }
   }
 
-  const getRotationAngle = (t: number): any => {
+  const getRotationAngle = (t) => {
     t = t % props.numberOfShapes
       if (t >= 0 && t <= 1) {
           const theta1 = getTheta1down()
@@ -618,11 +603,11 @@ const Element = ({
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
-        rotation = {transitionParameter.to((t) => getRotationAngle(t))[1]}
+        rotation = {transitionParameter.to((t) => getRotationAngle(t))}
       >
         <group>
           <animated.mesh //{...props}
-            rotation={transitionParameter.to((t) => getTilt(t))[1]}
+            rotation={transitionParameter.to((t) => getTilt(t))}
           >
             <Quadrilateral
               {...props}
@@ -633,7 +618,7 @@ const Element = ({
                 [cardWidth, 0, 0],
               ]}
               color={getColor()}
-              opacity={1}
+              opacity={getOpacity()}
             />
             {props.selectedAtomicNumber === element.atomicNumber && (
               <FocusFrame

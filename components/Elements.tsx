@@ -13,6 +13,7 @@ type ElementsProps = {
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
 }
+
 const Elements = (props: ElementsProps): React.ReactNode => {
   return (
     <>
