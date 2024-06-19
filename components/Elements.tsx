@@ -1,7 +1,6 @@
 import React from "react"
 import Element from "./Element"
 import elements from "../constants/elements"
-import { set } from "date-fns"
 
 type ElementsProps = {
   selectedAtomicNumber: number
@@ -29,7 +28,6 @@ const Elements = (props: ElementsProps): React.ReactNode => {
             count={props.count}
             setAtomicNumber={props.setAtomicNumber}
             setIsModalVisible={props.setIsModalVisible}
-            // emissive={new THREE.Color('#000000')}
           />
         )
       })}

@@ -1,6 +1,6 @@
 import React from "react"
 import * as THREE from "three"
-import { BufferGeometry, BufferAttribute, Mesh, MeshBasicMaterial } from "three"
+import { BufferGeometry, BufferAttribute } from "three"
 
 type QuadrilateralProps = {
   points: number[][]

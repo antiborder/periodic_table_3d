@@ -1,6 +1,5 @@
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
-// Remove the import statement for React
 import { Vector3 } from "three"
 import { PerspectiveCamera } from "three"
 import Elements from "./Elements"

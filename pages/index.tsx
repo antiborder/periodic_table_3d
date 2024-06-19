@@ -21,15 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-type Props = {
-  allPostsData: {
-    id: string
-    title: string
-    date: string
-  }[]
-}
-
-const Home = ({ allPostsData }: Props): React.ReactNode => {
+const Home = (): React.ReactNode => {
   const numberOfShapes = 5
   const numberOfCharacteristics = 5
   const numberOfElements = 118
@@ -54,15 +46,17 @@ const Home = ({ allPostsData }: Props): React.ReactNode => {
     characteristicCount % numberOfCharacteristics === 0
       ? "Block"
       : characteristicCount % numberOfCharacteristics === 1
-        ? "沸点" //IONIZATION_ENERGY
+        ? "沸点"
         : characteristicCount % numberOfCharacteristics === 2
           ? "融点"
           : characteristicCount % numberOfCharacteristics === 3
             ? "イオン化エネルギー"
             : "電子親和力"
 
-  function modulo(a, n) {
-    return ((a % n) + n) % n
+  function modulo(x, n) {
+    // 負の数の場合は+5して正の値にする
+    if (x < 0) {        x = (x % n) + n;    }
+    return x % n;
   }
 
   const handleShapeNumberUp = () => {
@@ -73,25 +67,33 @@ const Home = ({ allPostsData }: Props): React.ReactNode => {
   }
 
   const handleAtomicNumberUp = () => {
-    setAtomicNumber(modulo(atomicNumber, numberOfElements) + 1)
+    setAtomicNumber(
+      (prev)=>{
+        return modulo(prev, numberOfElements) + 1
+      }
+    )
   }
 
   const handleAtomicNumberDown = () => {
-    setAtomicNumber(modulo(atomicNumber - 2, numberOfElements) + 1)
+    setAtomicNumber(
+      (prev)=>{
+        return modulo(prev-2, numberOfElements) + 1 // 2減らして1増やすのは0になった時への配慮
+      }
+    )
   }
 
   const handleCharacteristicUp = () => {
-    setCharacteristicCount(modulo(characteristicCount, numberOfCharacteristics) + 1)
+    setCharacteristicCount(modulo(characteristicCount + 1, numberOfCharacteristics) )
   }
   const handleCharacteristicDown = () => {
-    setCharacteristicCount(modulo(characteristicCount - 2, numberOfCharacteristics) + 1)
+    setCharacteristicCount(modulo(characteristicCount - 1, numberOfCharacteristics))
   }
 
   return (
     <Layout home>
-      <Head>
+      {/* <Head>
         <title>{siteTitle}</title>
-      </Head>
+      </Head> */}
 
       <SymbolPanel
         atomicNumber={atomicNumber}
@@ -117,10 +119,8 @@ const Home = ({ allPostsData }: Props): React.ReactNode => {
         numberOfCharacteristics={numberOfCharacteristics}
         selectedAtomicNumber={atomicNumber}
         numberOfShapes={numberOfShapes}
-        // atmicNumber = {atomicNumber}
         setAtomicNumber={setAtomicNumber}
         setIsModalVisible={setIsModalVisible}
-        // modulo = {modulo}
       />
 
       {isModalVisible === true && (

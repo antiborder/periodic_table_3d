@@ -230,7 +230,6 @@ const getCoordinate = (count: number, atomicNumber: number): Num3 => {
       default:
         baseTheta = elements[atomicNumber].tableColumn - 1
     }
-    // let baseTheta = elements[atomicNumber].tableColumn - 1 % getSpiralPeriod(atomicNumber)
     let adjustedTheta = baseTheta //- Math.PI * 4.1 / 8
     return adjustedTheta
   }
@@ -251,6 +250,24 @@ const getCoordinate = (count: number, atomicNumber: number): Num3 => {
               return -tableRow - (tableColumn + 14) / 32;
           }
   }
+
+  const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
+    const theta1 = getTheta1up(atomicNumber)
+    const distance = getRadius1(atomicNumber) - ELEMENTOUCH_RADIUS_P
+    const cartesianCoordinate = cylindricalToCartesian([
+      getRadius1(atomicNumber) + (t - 1) * (radius2( atomicNumber) - getRadius1(atomicNumber)),
+      theta1 + (t - 1) * (theta2(atomicNumber) - theta1),
+      z1(atomicNumber) + (t - 1) * (z2 - z1(atomicNumber)),
+    ])
+    const translatedCoordinate: Num3 = [
+      cartesianCoordinate[0],
+      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
+      cartesianCoordinate[2],
+    ]
+    return translatedCoordinate
+  }
+
+
   const radius2 = (atomicNumber: number): number => {
     if(elements[atomicNumber]["tableRow"] <= 7){
       return elements[atomicNumber]["tableRow"] + 2 + elements[atomicNumber]["tableColumn"] / 18
@@ -266,6 +283,21 @@ const getCoordinate = (count: number, atomicNumber: number): Num3 => {
       : (elements[atomicNumber]["tableColumn"] / 32) * 2 * Math.PI - (Math.PI * 3) / 4
   }
   const z2 = -12
+
+  const getTransition2to3Coordinate = (t: number, atomicnumber: number): Num3 => {
+    const distance = getRadius3(atomicnumber) - ELEMENTOUCH_RADIUS_P
+    const cartesianCoordinate = cylindricalToCartesian([
+      radius2(atomicnumber) + (t - 2) * (getRadius3(atomicnumber) - radius2(atomicnumber)),
+      theta2(atomicnumber) + Math.pow(t - 2, 1) * (getTheta3down(atomicnumber) - theta2(atomicnumber)),
+      z2 + (t - 2) * (z3(atomicnumber) - z2),
+    ])
+    const translatedCoordinate: Num3 = [
+      cartesianCoordinate[0],
+      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
+      cartesianCoordinate[2],
+    ]
+    return translatedCoordinate
+  }
 
   const getRadius3 = (atomicNumber: number): number => {
     let radius = 0
@@ -322,47 +354,8 @@ const getCoordinate = (count: number, atomicNumber: number): Num3 => {
   }
   const z3 = (atomicNumber) => -elements[atomicNumber].spiralRow - elements[atomicNumber].spiralColumn / getElementouchPeriod(atomicNumber)
 
-  const radius4 = (atomicNumber) => { return cartesianToCylindrical(orbitalPosition(atomicNumber))[0]}
-  const theta4 = (atomicNumber) => { return  cartesianToCylindrical(orbitalPosition(atomicNumber))[1]}
-  const z4 = (atomicNumber) => { return  cartesianToCylindrical(orbitalPosition(atomicNumber))[2]}
-
-  const revalueTheta = (theta) => {
-    return Math.PI < theta ? theta - 2 * Math.PI : theta
-  }
-
-  const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
-    const theta1 = getTheta1up(atomicNumber)
-    const distance = getRadius1(atomicNumber) - ELEMENTOUCH_RADIUS_P
-    const cartesianCoordinate = cylindricalToCartesian([
-      getRadius1(atomicNumber) + (t - 1) * (radius2( atomicNumber) - getRadius1(atomicNumber)),
-      theta1 + (t - 1) * (theta2(atomicNumber) - theta1),
-      z1(atomicNumber) + (t - 1) * (z2 - z1(atomicNumber)),
-    ])
-    const translatedCoordinate: Num3 = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-  }
-  const getTransition2to3Coordinate = (t: number, atomicnumber: number): Num3 => {
-    const distance = getRadius3(atomicnumber) - ELEMENTOUCH_RADIUS_P
-    const cartesianCoordinate = cylindricalToCartesian([
-      radius2(atomicnumber) + (t - 2) * (getRadius3(atomicnumber) - radius2(atomicnumber)),
-      theta2(atomicnumber) + Math.pow(t - 2, 1) * (getTheta3down(atomicnumber) - theta2(atomicnumber)),
-      z2 + (t - 2) * (z3(atomicnumber) - z2),
-    ])
-    const translatedCoordinate: Num3 = [
-      cartesianCoordinate[0],
-      cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-      cartesianCoordinate[2],
-    ]
-    return translatedCoordinate
-  }
-
   const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
     const distance = getRadius3(atomicNumber) - ELEMENTOUCH_RADIUS_P
-    const revaluedTheta0 = theta0(atomicNumber) < (1 * Math.PI) / 2 ? theta0(atomicNumber) + 2 * Math.PI : theta0
     const cartesianCoordinate = cylindricalToCartesian([
       getRadius3(atomicNumber) + Math.pow(t - 3, 0.5) * (radius4(atomicNumber) - getRadius3(atomicNumber)),
       getTheta3up(atomicNumber) + Math.pow(t - 3, 0.7) * (theta4(atomicNumber) - getTheta3up(atomicNumber)),
@@ -374,6 +367,14 @@ const getCoordinate = (count: number, atomicNumber: number): Num3 => {
       cartesianCoordinate[2],
     ]
     return translatedCoordinate
+  }
+
+  const radius4 = (atomicNumber) => { return cartesianToCylindrical(orbitalPosition(atomicNumber))[0]}
+  const theta4 = (atomicNumber) => { return  cartesianToCylindrical(orbitalPosition(atomicNumber))[1]}
+  const z4 = (atomicNumber) => { return  cartesianToCylindrical(orbitalPosition(atomicNumber))[2]}
+
+  const revalueTheta = (theta) => {
+    return Math.PI < theta ? theta - 2 * Math.PI : theta
   }
 
   const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {

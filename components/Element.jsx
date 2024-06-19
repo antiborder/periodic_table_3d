@@ -105,24 +105,6 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
     return opacity
   }
 
-  const getWinding = () => {
-    let winding = 0
-    winding =
-      element.orbit.slice(-1) === "s"
-        ? 0
-        : element.orbit.slice(-1) === "p"
-          ? element["winding"]
-          : element.orbit.slice(-1) === "d"
-            ? element.atomicNumber === 71 || element.atomicNumber === 103
-              ? element["winding"]
-              : element["winding"] + 1
-            : (element.atomicNumber >= 67 && element.atomicNumber <= 70) ||
-                (element.atomicNumber >= 99 && element.atomicNumber <= 102)
-              ? element["winding"] - 1
-              : element["winding"]
-    return winding
-  }
-
   const handleElementClick = () => {
     props.setAtomicNumber(props.atomicNumber)
     props.setIsModalVisible(true)
@@ -135,7 +117,6 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
   const handlePointerOut = () => {
     setHovered(false)
   }
-
 
   const { scale } = useSpring({
     scale: hovered ? 1.8 : 1,
