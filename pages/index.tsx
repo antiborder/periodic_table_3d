@@ -11,6 +11,7 @@ import { useState } from "react"
 import CharacteristicPanel from "../components/CharacteristicPanel"
 import ElementDetailModal from "../components/ElementDetailModal"
 import ShapePanel from "../components/ShapePanel"
+import ColorGauge from "../components/ColorGauge"
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
@@ -46,17 +47,19 @@ const Home = (): React.ReactNode => {
     characteristicCount % numberOfCharacteristics === 0
       ? "Block"
       : characteristicCount % numberOfCharacteristics === 1
-        ? "沸点"
+        ? "Boiling Point"
         : characteristicCount % numberOfCharacteristics === 2
-          ? "融点"
+          ? "Melting Point"
           : characteristicCount % numberOfCharacteristics === 3
-            ? "イオン化エネルギー"
-            : "電子親和力"
+            ? "Ionization Energy"
+            : "Electron Affinity"
 
   function modulo(x, n) {
     // 負の数の場合は+5して正の値にする
-    if (x < 0) {        x = (x % n) + n;    }
-    return x % n;
+    if (x < 0) {
+      x = (x % n) + n
+    }
+    return x % n
   }
 
   const handleShapeNumberUp = () => {
@@ -67,23 +70,19 @@ const Home = (): React.ReactNode => {
   }
 
   const handleAtomicNumberUp = () => {
-    setAtomicNumber(
-      (prev)=>{
-        return modulo(prev, numberOfElements) + 1
-      }
-    )
+    setAtomicNumber((prev) => {
+      return modulo(prev, numberOfElements) + 1
+    })
   }
 
   const handleAtomicNumberDown = () => {
-    setAtomicNumber(
-      (prev)=>{
-        return modulo(prev-2, numberOfElements) + 1 // 2減らして1増やすのは0になった時への配慮
-      }
-    )
+    setAtomicNumber((prev) => {
+      return modulo(prev - 2, numberOfElements) + 1 // 2減らして1増やすのは0になった時への配慮
+    })
   }
 
   const handleCharacteristicUp = () => {
-    setCharacteristicCount(modulo(characteristicCount + 1, numberOfCharacteristics) )
+    setCharacteristicCount(modulo(characteristicCount + 1, numberOfCharacteristics))
   }
   const handleCharacteristicDown = () => {
     setCharacteristicCount(modulo(characteristicCount - 1, numberOfCharacteristics))
@@ -112,6 +111,8 @@ const Home = (): React.ReactNode => {
         onCharacteristicUp={handleCharacteristicUp}
         onCharacteristicDown={handleCharacteristicDown}
       />
+
+      <ColorGauge characteristic={characteristic} />
 
       <Structure
         count={count}

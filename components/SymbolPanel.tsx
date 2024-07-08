@@ -35,6 +35,7 @@ const SymbolPanel = (props: SymbolPanelProps): React.ReactNode => {
           </div>
         </div>
         <div className="atomicNumber">{props.atomicNumber}</div>
+        <div className="elementName">{selectedElement.name}</div>
       </div>
     </StyledSymbolPanel>
   )
@@ -52,7 +53,7 @@ const StyledSymbolPanel = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 800;
   width: 90px;
-  height: 64px;
+  height: 76px;
   padding:0px;
   text-align: center;
 
@@ -112,6 +113,14 @@ const StyledSymbolPanel = styled.div`
     font-weight:bold;
     font-size:16px;
   }
+
+  .elementName{
+    position:absolute;
+    top: 52px;
+    width:100%;
+    text-align:center;
+    font-size:16px;
+    }
 
 
 `

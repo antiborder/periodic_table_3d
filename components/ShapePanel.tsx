@@ -18,7 +18,7 @@ const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
     >
       <div className="modal-content">
         <div className="shapeBox">
-          <div className="shapeLabel"> 形：</div>
+          <div className="shapeLabel"> Shape：</div>
           <button className="shapeDownButton" onClick={props.onShapeDown}>
             {"◀︎"}
             {/* </button>

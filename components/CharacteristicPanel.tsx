@@ -19,7 +19,7 @@ function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
     >
       <div className="modal-content">
         <div className="characteristicBox">
-          <div className="characteristicLabel"> 色：</div>
+          <div className="characteristicLabel"> Color：</div>
           <button className="characteristicDownButton" onClick={props.onCharacteristicDown}>
             {"◀︎"}
           </button>

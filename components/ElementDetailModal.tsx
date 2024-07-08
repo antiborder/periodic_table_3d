@@ -34,11 +34,11 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
 
   const metallic =
     element.metallic === "metal"
-      ? "金属"
+      ? "Metal"
       : element.metallic === "nonmetal"
-        ? "非金属"
+        ? "Nonmeta"
         : element.metallic === "semimetal"
-          ? "半金属"
+          ? "Semimetal"
           : ""
 
   return (
@@ -50,11 +50,11 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
       <div className="modal-content">
         <div className="atomicNumberLabel">　{/* {element.atomicNumber} */}</div>
         <div className="symbolLabel">{element.symbol}</div>
-        <div className="nameLabel">{element.japaneseName}</div>
+        <div className="nameLabel">{element.name}</div>
 
         <div className="propertyBox1">
-          <div>英名: {element.name}</div>
-          <div>原子番号: {element.atomicNumber}</div>
+          {/* <div>English Name: {element.name}</div> */}
+          <div>Atomic Number: {element.atomicNumber}</div>
         </div>
 
         <AtomicModel
@@ -64,28 +64,28 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
         />
 
         <div className="propertyBox2">
-          <div>{element.family} 族</div>
-          <div>{shell} 殻</div>
+          <div>family: {element.family}</div>
+          <div>shell: {shell}</div>
           <div>{metallic}</div>
           <div>
-            常温で
-            {element.state === "solid" ? "固体" : element.state === "liquid" ? "液体" : "気体"}
+            {element.state === "solid" ? "Solid" : element.state === "liquid" ? "Liquid" : "Gas"}
+            &nbsp; at room temperature.
           </div>
         </div>
 
         <div className="propertyBox3">
-          <div>原子量：{element.atomicMass}</div>
-          <div>融点：{element.meltingPoint}℃</div>
-          <div>沸点：{element.boilingPoint}℃</div>
+          <div>Atomic Mass：{element.atomicMass}</div>
+          <div>Melting Point：{element.meltingPoint}℃</div>
+          <div>Boiling Point：{element.boilingPoint}℃</div>
           <div className="firstIonizationEnergy">
-            第一イオン化エネルギー：{element["1stIonizationEnergy"]} kJ/mol
+            1st Ionization Energy：{element["1stIonizationEnergy"]} kJ/mol
           </div>
-          <div>電子親和力：{element.electronAffinity} kJ/mol</div>
-          <div>密度：{element.density} g/cm3</div>
+          <div>Electron Affirnity：{element.electronAffinity} kJ/mol</div>
+          <div>Density：{element.density} g/cm3</div>
         </div>
 
         <div className="electronConfigurationBox">
-          <div>＜電子配置＞</div>
+          <div>＜Electronic Configuration＞</div>
           <div style={{ textAlign: "left", marginLeft: "100px", fontSize: "16px" }}>
             {Object.entries(element.electron).map(([key, value]) => (
               <div key={key}>

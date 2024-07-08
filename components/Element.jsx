@@ -18,7 +18,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
   const { transitionParameter } = useSpring({
     transitionParameter: props.count,
     config: { ...config.wobbly, duration: 2500 },
-});
+  })
 
   const getColor = () => {
     let max = 0
@@ -63,8 +63,8 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
         min = -273
         weight = -(element["boilingPoint"] - min) / (max - min) + 1
         h = Math.pow(weight, 1.5) * 180 + 0
-        s = 100 //Math.pow(weight, 1) * 100
-        v = 100 //Math.pow(weight, 0.7) * 100
+        s = 100
+        v = 100
         color = "#" + convert.hsv.hex(h, s, v)
         break
       case 2:
@@ -72,8 +72,8 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
         min = -273
         weight = -(element["meltingPoint"] - min) / (max - min) + 1
         h = Math.pow(weight, 1.5) * 180 + 0
-        s = 100 //Math.pow(weight, 1) * 100
-        v = 100 //Math.pow(weight, 0.7) * 100
+        s = 100
+        v = 100
         color = "#" + convert.hsv.hex(h, s, v)
         break
       default:
@@ -131,7 +131,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
-        rotation={transitionParameter.to((count) => getRotationAngle(count,  props.atomicNumber))}
+        rotation={transitionParameter.to((count) => getRotationAngle(count, props.atomicNumber))}
       >
         <group>
           <animated.mesh //{...props}
@@ -172,7 +172,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
               </Text>
 
               <Text
-                position={[0.4, -0.5, 0.01]}
+                position={[0.4, -0.43, 0.01]}
                 fontSize={0.5}
                 color={
                   props.characteristicCount % props.numberOfCharacteristics <= 2 ? "#000" : "#fff"
