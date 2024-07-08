@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import InfoIcon from './InfoIcon';
 
 type ShapePanelProps = {
   // atomicNumber: number
@@ -16,23 +17,22 @@ const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
         event.stopPropagation()
       }}
     >
-      <div className="modal-content">
         <div className="shapeBox">
-          <div className="shapeLabel"> Shape：</div>
+
+          <div className="rightBox">
+            <a href="posts/shapes-of-periodic-table"className = "infoIcon"><InfoIcon/></a>
+
+            <button className="shapeUpButton" onClick={props.onShapeUp}>
+
+              <span className="shapeName">{props.shape}</span>
+              {"▶︎"}
+            </button>
+          </div>
           <button className="shapeDownButton" onClick={props.onShapeDown}>
             {"◀︎"}
-            {/* </button>
-          <button
-            className='shape'
-            onClick={props.onShapeUp}
-          > */}
           </button>
-          <button className="shapeUpButton" onClick={props.onShapeUp}>
-            {props.shape}
-            {"▶︎"}
-          </button>
+          <div className="shapeLabel"> Shape：</div>
         </div>
-      </div>
     </StyledShapePanel>
   )
 }
@@ -42,35 +42,22 @@ const StyledShapePanel = styled.div`
   top: 8px;
   right: 8px;
   z-index: 800;
-  width: 280px;
   height: 36px;
-  padding:0px;
-  text-align: center;
 
-  .modal-content{
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    width:100%;
-    margin:0px;
-    padding: 0px;
-  }
-  .modal-content::-webkit-scrollbar{
-    display: none;
-  }
   .shapeLabel{
     padding:0px;
-    font-size:16px;
+    font-size:14px;
     padding-left:4px;
   }
   .shapeBox{
     display:flex;
-    justify-content:center;
+    flex-direction:row-reverse;
     align-items:center;
     margin:4px;
   }
   .shapeDownButton{
-    width:50px;
+    width:30px;
+    heitht:50px;
     background-color: white;
     opacity: 0.7;
     font-size:20px;
@@ -78,21 +65,46 @@ const StyledShapePanel = styled.div`
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
+    margin:0px;
+    cursor: pointer;
+  }
 
-    margin:0px;
-    cursor: pointer;
-  }
-  .shapeUpButton{
-    width:350px;
+  .rightBox{
+    display:flex;
+    flex-direction:row;
+    width:155px;
     background-color: white;
     opacity: 0.7;
-    text-align:right;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
-    margin:0px;
-    font-size:20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    .infoIcon{
+    position: relative;
+    top:6px;
+    width:30px;
+    left: 6px;
+      margin:0px;
+      padding:0px;
+          cursor: pointer;
+
+
+    }
+     .shapeUpButton{
+     width:140px;
+     background-color: white;
+    text-align:right;
+     margin-right:0px;
+     padding-right:0px;
+      border: none;
+      font-size:20px;
+          cursor: pointer;
+          .shapeName{
+            font-size:16px;
+            }
+    }
+  }
     cursor: pointer;
   }
 

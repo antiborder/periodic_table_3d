@@ -1,9 +1,5 @@
 import { GetStaticProps } from "next"
-import Head from "next/head"
 import Layout, { siteTitle } from "./components/layout"
-import utilStyles from "../styles/utils.module.css"
-import Link from "next/link"
-import Date from "./components/date"
 import { getSortedPostsData } from "../lib/posts"
 import Structure from "../components/Structure"
 import SymbolPanel from "../components/SymbolPanel"
@@ -36,7 +32,7 @@ const Home = (): React.ReactNode => {
     count % numberOfShapes === 0
       ? "Standard"
       : count % numberOfShapes === 1
-        ? "Spiral"
+        ? "Curled"
         : count % numberOfShapes === 2
           ? "Disc"
           : count % numberOfShapes === 3
@@ -45,7 +41,7 @@ const Home = (): React.ReactNode => {
 
   const characteristic =
     characteristicCount % numberOfCharacteristics === 0
-      ? "Block"
+      ? "Orbital"
       : characteristicCount % numberOfCharacteristics === 1
         ? "Boiling Point"
         : characteristicCount % numberOfCharacteristics === 2
