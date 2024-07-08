@@ -25,7 +25,7 @@ function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
           </button>
 
           <button className="characteristicUpButton" onClick={props.onCharacteristicUp}>
-            {props.characteristic}
+            <span className="characteristicName">{props.characteristic}</span>
             {"▶︎"}
           </button>
         </div>
@@ -39,7 +39,7 @@ const StyledCharacteristicPanel = styled.div`
   top: 50px;
   right: 8px;
   z-index: 800;
-  width: 280px;
+  width: 246px;
   height: 36px;
   padding:0px;
   text-align: center;
@@ -57,7 +57,7 @@ const StyledCharacteristicPanel = styled.div`
   }
   .characteristicLabel{
     padding:0px;
-    font-size:16px;
+    font-size:14px;
     padding-left:4px;
   }
   .characteristicBox{
@@ -67,7 +67,7 @@ const StyledCharacteristicPanel = styled.div`
     margin:4px;
   }
   .characteristicDownButton{
-    width:50px;
+    width:60px;
     background-color: white;
     opacity: 0.7;
     text-align:right;
@@ -80,7 +80,7 @@ const StyledCharacteristicPanel = styled.div`
 
   }
   .characteristicUpButton{
-    width:350px;
+    width:330px;
     background-color: white;
     opacity: 0.7;
     text-align:right;
@@ -90,6 +90,8 @@ const StyledCharacteristicPanel = styled.div`
     padding:0px;
     font-size:20px;
     cursor: pointer;
+    .characteristicName{
+      font-size:16px;}
   }
 
   .characteristic{
