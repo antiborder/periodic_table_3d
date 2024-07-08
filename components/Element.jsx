@@ -172,7 +172,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
               </Text>
 
               <Text
-                position={[0.4, -0.5, 0.01]}
+                position={[0.4, -0.43, 0.01]}
                 fontSize={0.5}
                 color={
                   props.characteristicCount % props.numberOfCharacteristics <= 2 ? "#000" : "#fff"

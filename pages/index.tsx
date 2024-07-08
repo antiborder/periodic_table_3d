@@ -47,12 +47,12 @@ const Home = (): React.ReactNode => {
     characteristicCount % numberOfCharacteristics === 0
       ? "Block"
       : characteristicCount % numberOfCharacteristics === 1
-        ? "沸点"
+        ? "Boiling Point"
         : characteristicCount % numberOfCharacteristics === 2
-          ? "融点"
+          ? "Melting Point"
           : characteristicCount % numberOfCharacteristics === 3
-            ? "イオン化エネルギー"
-            : "電子親和力"
+            ? "Ionization Energy"
+            : "Electron Affinity"
 
   function modulo(x, n) {
     // 負の数の場合は+5して正の値にする
@@ -112,7 +112,7 @@ const Home = (): React.ReactNode => {
         onCharacteristicDown={handleCharacteristicDown}
       />
 
-      <ColorGauge />
+      <ColorGauge characteristic={characteristic} />
 
       <Structure
         count={count}
