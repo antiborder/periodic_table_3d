@@ -3,7 +3,7 @@ const constants = {
   NUMBER_OF_CHARACTERISTICS: 5,
   NUMBER_OF_ELEMENTS: 118,
   COLORS: {
-    Block: [
+    Orbital: [
       {
         TEXT: "s",
         COLOR: "#FF777A",

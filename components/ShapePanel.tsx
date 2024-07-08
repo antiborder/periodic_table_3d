@@ -20,7 +20,7 @@ const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
         <div className="shapeBox">
 
           <div className="rightBox">
-            <a href="https://vietnamese-learn.net"className = "infoIcon"><InfoIcon/></a>
+            <a href="posts/shapes-of-periodic-table"className = "infoIcon"><InfoIcon/></a>
 
             <button className="shapeUpButton" onClick={props.onShapeUp}>
 
@@ -82,7 +82,7 @@ const StyledShapePanel = styled.div`
 
     .infoIcon{
     position: relative;
-    top:4px;
+    top:6px;
     width:30px;
     left: 6px;
       margin:0px;
