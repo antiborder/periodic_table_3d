@@ -78,7 +78,7 @@ function AtomicModel(props: AtomicModelProps): React.ReactNode {
                           type="rotate"
                           from="0 50 50"
                           to="360 50 50"
-                          dur={6 + Math.random() * 4 + "s"}
+                          dur={12 + Math.random() * 8 + "s"}
                           repeatCount="indefinite"
                         />
                         <circle

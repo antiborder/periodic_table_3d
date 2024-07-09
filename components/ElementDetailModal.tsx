@@ -1,7 +1,9 @@
 import styled from "styled-components"
 import elements from "../constants/elements"
+import constants from "../constants/constants"
 import AtomicModel from "./AtomicModel"
 import React from "react"
+import ElectronConfigurationBox from "./ElectronConfigrationBox"
 
 type ElementDetailModalProps = {
   atomicNumber: number
@@ -14,23 +16,6 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
   const handleSubmit = () => {
     props.setIsModalVisible(false)
   }
-
-  const shell =
-    element.orbit.charAt(0) === "1"
-      ? "K"
-      : element.orbit.charAt(0) === "2"
-        ? "L"
-        : element.orbit.charAt(0) === "3"
-          ? "M"
-          : element.orbit.charAt(0) === "4"
-            ? "N"
-            : element.orbit.charAt(0) === "5"
-              ? "O"
-              : element.orbit.charAt(0) === "6"
-                ? "P"
-                : element.orbit.charAt(0) === "7"
-                  ? "Q"
-                  : ""
 
   const metallic =
     element.metallic === "metal"
@@ -64,41 +49,59 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
         />
 
         <div className="propertyBox2">
-          <div>family: {element.family}</div>
-          <div>shell: {shell}</div>
-          <div>{metallic}</div>
-          <div>
-            {element.state === "solid" ? "Solid" : element.state === "liquid" ? "Liquid" : "Gas"}
-            &nbsp; at room temperature.
-          </div>
+        <table>
+  <tr>
+    <td>Family:</td>
+    <td>{element.family}</td>
+  </tr>
+  <tr>
+    <td>Shell:</td>
+    <td>{constants.SHELL_NAMES[element.orbit.charAt(0)-1]}</td>
+  </tr>
+  <tr>
+    <td>Group:</td>
+    <td>{metallic}</td>
+  </tr>
+  <tr>
+    <td>State:</td>
+    <td>
+      {element.state === "solid" ? "Solid" : element.state === "liquid" ? "Liquid" : "Gas"}
+      <small>(RT)</small>
+    </td>
+  </tr>
+</table>
         </div>
 
         <div className="propertyBox3">
-          <div>Atomic Mass：{element.atomicMass}</div>
-          <div>Melting Point：{element.meltingPoint}℃</div>
-          <div>Boiling Point：{element.boilingPoint}℃</div>
-          <div className="firstIonizationEnergy">
-            1st Ionization Energy：{element["1stIonizationEnergy"]} kJ/mol
-          </div>
-          <div>Electron Affirnity：{element.electronAffinity} kJ/mol</div>
-          <div>Density：{element.density} g/cm3</div>
+          <table>
+            <tr>
+              <td>Atomic Mass</td>
+              <td>{element.atomicMass}</td>
+            </tr>
+            <tr>
+              <td>Melting Point</td>
+              <td>{element.meltingPoint}℃</td>
+            </tr>
+            <tr>
+              <td>Boiling Point</td>
+              <td>{element.boilingPoint}℃</td>
+            </tr>
+            <tr>
+              <td>1st Ionization Energy</td>
+              <td>{element["1stIonizationEnergy"]} kJ/mol</td>
+            </tr>
+            <tr>
+              <td>Electron Affirnity</td>
+              <td>{element.electronAffinity} kJ/mol</td>
+            </tr>
+            <tr>
+              <td>Density</td>
+              <td>{element.density} g/cm3</td>
+            </tr>
+          </table>
         </div>
 
-        <div className="electronConfigurationBox">
-          <div>＜Electronic Configuration＞</div>
-          <div style={{ textAlign: "left", marginLeft: "100px", fontSize: "16px" }}>
-            {Object.entries(element.electron).map(([key, value]) => (
-              <div key={key}>
-                {key}:&nbsp;&nbsp;&nbsp;&nbsp;
-                {/* <ul> */}
-                {Object.entries(value).map(([subKey, subValue]) => (
-                  <span key={subKey}>{subValue}&nbsp;</span>
-                ))}
-                {/* </ul> */}
-              </div>
-            ))}
-          </div>
-        </div>
+        <ElectronConfigurationBox atomicNumber={props.atomicNumber} />
 
         <StyledCloseButton onClick={handleSubmit}>&times;</StyledCloseButton>
       </div>
@@ -174,28 +177,46 @@ const StyledElementDetailModal = styled.div`
       font-size: 16px;
       border-radius: 8px;
       margin:20px auto;
+table{
+width:140px;
+margin: 0 auto;
 
+
+      td:nth-child(1) {
+  font-weight: normal ;
+}
+
+td:nth-child(2) {
+  font-weight: bold;
+}
+
+
+}
     }
+
     .propertyBox3{
+    border-collapse: collapse;
       width:80%;
-      background-color: #ddd;
-      font-size: 16px;
-      border-radius: 8px;
+      background-color: none;
+      font-size: 14px;
       margin:20px auto;
+table{
+      border-collapse: collapse;
+      width:100%;
 
-    }
+      }
+            td{
+      border: 1px solid gray;
+
+
+}
+
+            }
+
+
 
     .firstIonizationEnergy{
       font-size: 12px;
-    }
-
-    .electronConfigurationBox{
-      width:80%;
-      background-color: #ddd;
-      font-size: 16px;
-      border-radius: 8px;
-      margin:20px auto;
-
     }
 
 `
