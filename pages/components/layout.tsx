@@ -1,11 +1,9 @@
 import Head from "next/head"
-import Image from "next/image"
 import styles from "./layout.module.css"
 import Link from "next/link"
 import { ReactNode, FC } from "react"
 
-const name = "Your Name"
-export const siteTitle = "Next.js Sample Website"
+export const siteTitle = "3D Periodic Table of the Elements"
 
 type LayoutProps = {
   children: ReactNode
