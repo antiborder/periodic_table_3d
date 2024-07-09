@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import InfoIcon from './InfoIcon';
+import InfoIcon from "./InfoIcon"
 
 type ShapePanelProps = {
   // atomicNumber: number
@@ -17,22 +17,22 @@ const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
         event.stopPropagation()
       }}
     >
-        <div className="shapeBox">
+      <div className="shapeBox">
+        <div className="rightBox">
+          <a href="posts/shapes-of-periodic-table" className="infoIcon">
+            <InfoIcon />
+          </a>
 
-          <div className="rightBox">
-            <a href="posts/shapes-of-periodic-table"className = "infoIcon"><InfoIcon/></a>
-
-            <button className="shapeUpButton" onClick={props.onShapeUp}>
-
-              <span className="shapeName">{props.shape}</span>
-              {"▶︎"}
-            </button>
-          </div>
-          <button className="shapeDownButton" onClick={props.onShapeDown}>
-            {"◀︎"}
+          <button className="shapeUpButton" onClick={props.onShapeUp}>
+            <span className="shapeName">{props.shape}</span>
+            {"▶︎"}
           </button>
-          <div className="shapeLabel"> Shape：</div>
         </div>
+        <button className="shapeDownButton" onClick={props.onShapeDown}>
+          {"◀︎"}
+        </button>
+        <div className="shapeLabel"> Shape：</div>
+      </div>
     </StyledShapePanel>
   )
 }

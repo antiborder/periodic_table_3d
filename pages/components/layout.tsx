@@ -25,12 +25,12 @@ const Layout = ({ children, home }: LayoutProps): React.ReactNode => {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header >
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">← Back to home</Link>
-        </div>
-      )}
+      <header>
+        {!home && (
+          <div className={styles.backToHome}>
+            <Link href="/">← Back to home</Link>
+          </div>
+        )}
       </header>
       <main>{children}</main>
       {!home && (
