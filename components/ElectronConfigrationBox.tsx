@@ -23,7 +23,7 @@ const ElectronConfigurationBox = (props: { atomicNumber: number }): React.ReactN
           <tbody>
             {Object.entries(elements[props.atomicNumber].electron).map(([key, value]) => (
               <tr key={key}>
-                <TD>{constants.SHELL_NAMES[parseInt(key, 10)-1]}:&nbsp;&nbsp;</TD>
+                <TD>{constants.SHELL_NAMES[parseInt(key, 10) - 1]}:&nbsp;&nbsp;</TD>
                 {Object.entries(value).map(([subKey, subValue], index) => (
                   <TD key={subKey} color={constants.COLORS.Orbital[index].COLOR}>
                     <TD>{subValue}</TD>

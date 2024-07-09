@@ -49,27 +49,31 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
         />
 
         <div className="propertyBox2">
-        <table>
-  <tr>
-    <td>Family:</td>
-    <td>{element.family}</td>
-  </tr>
-  <tr>
-    <td>Shell:</td>
-    <td>{constants.SHELL_NAMES[element.orbit.charAt(0)-1]}</td>
-  </tr>
-  <tr>
-    <td>Group:</td>
-    <td>{metallic}</td>
-  </tr>
-  <tr>
-    <td>State:</td>
-    <td>
-      {element.state === "solid" ? "Solid" : element.state === "liquid" ? "Liquid" : "Gas"}
-      <small>(RT)</small>
-    </td>
-  </tr>
-</table>
+          <table>
+            <tr>
+              <td>Family:</td>
+              <td>{element.family}</td>
+            </tr>
+            <tr>
+              <td>Shell:</td>
+              <td>{constants.SHELL_NAMES[element.orbit.charAt(0) - 1]}</td>
+            </tr>
+            <tr>
+              <td>Group:</td>
+              <td>{metallic}</td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>
+                {element.state === "solid"
+                  ? "Solid"
+                  : element.state === "liquid"
+                    ? "Liquid"
+                    : "Gas"}
+                <small>(RT)</small>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div className="propertyBox3">
