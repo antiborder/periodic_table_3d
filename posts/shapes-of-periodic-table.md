@@ -15,7 +15,6 @@ Since then, there has been a lot of new discoveries on chemical elements, and hu
 
 Although the form of current periodic table is outdated, we still use the same old chemical periodic table.
 
-![standard shape image](/images/standard-shape.png)
 
 The problem with the current periodic table is
 - Rows on the table and shells in the atomic structure do not match.
@@ -30,7 +29,7 @@ The Curled shape is the standard chemical periodic table rolled and joined end t
 
 In this shape, elements are chained in order of atomic number, therefore you can see, for an example, the 2nd element (He) and 3rd element (Li) are properly joined.
 
-![curled shape image](/images/curled-shape-image.png)
+
 
 ## 3. Disc Shape
 The Disc shape is made by curling and laying down each element on tbe standard periodic table of the elements.
@@ -38,12 +37,12 @@ The Disc shape is made by curling and laying down each element on tbe standard p
 In this shape, you can see the La series and Ac series, which were treated separately from other elements in the standard periodic table, are naturally incorporated into the disc.
 In this way, you can view all the elements at a glance.
 
-![disc shape image](/images/disc-shape-image.png)
+
 
 ## 4. Elementouch Shape
 Elementouch Shape is a form made by chaining chemical elements in triple spiral form based on characteristics of each element.
 
-![elementouch shape image](/images/elementouch-shape.png)
+
 
 This shape is based on the ”Elementouch” periodic table invented by Y. Maeno, a professor in Kyoto University.
 See [What's Elementouch?](https://ss.scphys.kyoto-u.ac.jp/elementouch/en/illustration/index.html) for detail on "Elementouch"
@@ -57,5 +56,3 @@ Block Shape is a three-dimensional arrangement of elements in accordance with th
 
 Organized by shells and blocks.
 As you can see from the transition between Elementouch and Block shapes, this shape is made by cutting and opening Elementouch shape.
-
-![block shape](/images/block-shape.png)
