@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next"
 import Layout, { siteTitle } from "./components/layout"
 import { getSortedPostsData } from "../lib/posts"
+import Head from "next/head"
 import Structure from "../components/Structure"
 import SymbolPanel from "../components/SymbolPanel"
 import { useState } from "react"
@@ -86,9 +87,9 @@ const Home = (): React.ReactNode => {
 
   return (
     <Layout home>
-      {/* <Head>
+      <Head>
         <title>{siteTitle}</title>
-      </Head> */}
+      </Head>
 
       <SymbolPanel
         atomicNumber={atomicNumber}

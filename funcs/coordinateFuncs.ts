@@ -254,7 +254,7 @@ const z1 = (atomicNumber: number): number => {
 
   switch (true) {
     case tableRow <= 3 && tableColumn >= 13:
-      return -tableRow - (tableColumn - 10.5) / 8
+      return -tableRow - (tableColumn - 11) / 8
     case tableRow <= 5:
       return -tableRow - tableColumn / 18
     case tableRow >= 8:

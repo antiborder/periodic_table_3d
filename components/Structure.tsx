@@ -23,7 +23,7 @@ const Structure = (props: StructureProps): React.ReactNode => {
         camera={{
           position: new Vector3(cameraPosition[0], cameraPosition[1], cameraPosition[2]),
         }}
-        style={{ height: "120vh", width: "120vw" }}
+        style={{ height: "96vh", width: "98vw" }}
       >
         <color attach="background" args={["#EEE"]} />
         <ambientLight color="#ffffff" intensity={1} />
@@ -33,7 +33,7 @@ const Structure = (props: StructureProps): React.ReactNode => {
             args={[new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)]}
           />
         )}
-        <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 8, 0]}>
+        <group rotation={[-Math.PI / 2, 0, 0]} position={[5, 8, 0]}>
           <Elements
             selectedAtomicNumber={props.selectedAtomicNumber}
             count={props.count}

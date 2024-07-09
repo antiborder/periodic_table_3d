@@ -2,13 +2,13 @@
 title: 'Shapes of Chemical Periodic Table'
 ---
 
-The chemical periodic table is an arrangenment of chemical elements arranged systematically based on their properties.
+The periodic table of Elements is an arrangenment of chemical elements arranged systematically based on their properties.
 
 The shape of the chemical periodic table used so far is outdated.
 3D Chemical Periodic Table provides various shapes of the chemical periodic tables to help you better understand this world.
 
 ## 1. Standard Shape
-This shape is the most commonly used chemical periodic table, so you've probably seen it before.
+This shape is the most commonly used periodic table of the elements, so you've probably seen it before.
 
 However, this standard shape of chemical periodic table was invented over 100 years ago.
 Since then, there has been a lot of new discoveries on chemical elements, and human"s understanding on elements and atoms has advanced further.
@@ -33,7 +33,7 @@ In this shape, elements are chained in order of atomic number, therefore you can
 ![curled shape image](/images/curled-shape-image.png)
 
 ## 3. Disc Shape
-The Disc shape is made by curling and laying down each element on tbe standard chemical periodic table.
+The Disc shape is made by curling and laying down each element on tbe standard periodic table of the elements.
 
 In this shape, you can see the La series and Ac series, which were treated separately from other elements in the standard periodic table, are naturally incorporated into the disc.
 In this way, you can view all the elements at a glance.
