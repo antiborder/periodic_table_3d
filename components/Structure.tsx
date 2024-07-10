@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import { Vector3 } from "three"
 import { PerspectiveCamera } from "three"
-import Elements from "./Elements"
+import Elements from "./periodicTable/Elements"
 
 type StructureProps = {
   count: number

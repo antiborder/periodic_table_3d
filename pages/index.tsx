@@ -3,12 +3,12 @@ import Layout, { siteTitle } from "./components/layout"
 import { getSortedPostsData } from "../lib/posts"
 import Head from "next/head"
 import Structure from "../components/Structure"
-import SymbolPanel from "../components/SymbolPanel"
+import SymbolPanel from "../components/controlPanel/SymbolPanel"
 import { useState } from "react"
-import CharacteristicPanel from "../components/CharacteristicPanel"
-import ElementDetailModal from "../components/ElementDetailModal"
-import ShapePanel from "../components/ShapePanel"
-import ColorGauge from "../components/ColorGauge"
+import CharacteristicPanel from "../components/controlPanel/CharacteristicPanel"
+import ElementDetailModal from "../components/modal/ElementDetailModal"
+import ShapePanel from "../components/controlPanel/ShapePanel"
+import ColorGauge from "../components/controlPanel/ColorGauge"
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
