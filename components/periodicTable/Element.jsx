@@ -28,7 +28,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
     let s
     let v
 
-    switch (props.characteristicCount % props.numberOfCharacteristics) {
+    switch (props.characteristic) {
       case 0:
         color =
           element.orbit.slice(-1) === "s"
@@ -83,7 +83,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
 
   const getOpacity = () => {
     const DEFAULT_OPACITY = 0.7
-    switch (props.characteristicCount % props.numberOfCharacteristics) {
+    switch (props.characteristic) {
       case 0:
         opacity = DEFAULT_OPACITY
         break
@@ -175,7 +175,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
                 position={[0.4, -0.43, 0.01]}
                 fontSize={0.5}
                 color={
-                  props.characteristicCount % props.numberOfCharacteristics <= 2 ? "#000" : "#fff"
+                  props.characteristic <= 2 ? "#000" : "#fff"
                 }
                 anchorX="center"
                 anchorY="middle"

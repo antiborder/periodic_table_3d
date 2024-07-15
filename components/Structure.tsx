@@ -6,7 +6,7 @@ import Elements from "./periodicTable/Elements"
 
 type StructureProps = {
   count: number
-  characteristicCount: number
+  characteristic: number
   numberOfCharacteristics: number
   selectedAtomicNumber: number
   numberOfShapes: number
@@ -40,7 +40,7 @@ const Structure = (props: StructureProps): React.ReactNode => {
             numberOfShapes={props.numberOfShapes}
             shapesCount={props.count}
             numberOfCharacteristics={props.numberOfCharacteristics}
-            CharacteristicCount={props.characteristicCount}
+            characteristic={props.characteristic}
             setIsModalVisible={props.setIsModalVisible}
             setAtomicNumber={props.setAtomicNumber}
           />

@@ -9,6 +9,8 @@ import CharacteristicPanel from "../components/controlPanel/CharacteristicPanel"
 import ElementDetailModal from "../components/modal/ElementDetailModal"
 import ShapePanel from "../components/controlPanel/ShapePanel"
 import ColorGauge from "../components/controlPanel/ColorGauge"
+import {characteristicValues} from "../constants/characteristics"
+import { modulo } from "../utils/util"
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
@@ -26,8 +28,9 @@ const Home = (): React.ReactNode => {
 
   const [atomicNumber, setAtomicNumber] = useState(1)
   const [count, setCount] = useState(1000) //(windowSize.width>800 ? 1000 : 1003)
-  const [characteristicCount, setCharacteristicCount] = useState(0)
+  const [characteristic, setCharacteristic] = useState<characteristicValues>(characteristicValues.ORBITAL)
   const [isModalVisible, setIsModalVisible] = useState(false)
+
 
   const shape =
     count % numberOfShapes === 0
@@ -39,25 +42,6 @@ const Home = (): React.ReactNode => {
           : count % numberOfShapes === 3
             ? "Elementouch"
             : "Block"
-
-  const characteristic =
-    characteristicCount % numberOfCharacteristics === 0
-      ? "Orbital"
-      : characteristicCount % numberOfCharacteristics === 1
-        ? "Boiling Point"
-        : characteristicCount % numberOfCharacteristics === 2
-          ? "Melting Point"
-          : characteristicCount % numberOfCharacteristics === 3
-            ? "Ionization Energy"
-            : "Electron Affinity"
-
-  function modulo(x, n) {
-    // 負の数の場合は+5して正の値にする
-    if (x < 0) {
-      x = (x % n) + n
-    }
-    return x % n
-  }
 
   const handleShapeNumberUp = () => {
     setCount(count + 1)
@@ -79,10 +63,10 @@ const Home = (): React.ReactNode => {
   }
 
   const handleCharacteristicUp = () => {
-    setCharacteristicCount(modulo(characteristicCount + 1, numberOfCharacteristics))
+    setCharacteristic(modulo(characteristic + 1, numberOfCharacteristics))
   }
   const handleCharacteristicDown = () => {
-    setCharacteristicCount(modulo(characteristicCount - 1, numberOfCharacteristics))
+    setCharacteristic(modulo(characteristic - 1, numberOfCharacteristics))
   }
 
   return (
@@ -113,7 +97,7 @@ const Home = (): React.ReactNode => {
 
       <Structure
         count={count}
-        characteristicCount={characteristicCount}
+        characteristic={characteristic}
         numberOfCharacteristics={numberOfCharacteristics}
         selectedAtomicNumber={atomicNumber}
         numberOfShapes={numberOfShapes}

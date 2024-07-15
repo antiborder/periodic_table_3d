@@ -1,15 +1,15 @@
 import styled from "styled-components"
 import ColorSample from "./ColorSample"
-import constants from "../../constants/constants"
+import { characteristicData } from "../../constants/characteristics"
 
 type ColorgaugeProps = {
-  characteristic: string
+  characteristic: number
 }
 
 const ColorGauge = (props: ColorgaugeProps): React.ReactNode => {
   return (
     <StyledColorGauge>
-      {constants.COLORS[props.characteristic].map((color, index) => (
+      {characteristicData[props.characteristic].GAUGE.map((color, index) => (
         <ColorSample key={index} color={color.COLOR} text={color.TEXT} />
       ))}
     </StyledColorGauge>
