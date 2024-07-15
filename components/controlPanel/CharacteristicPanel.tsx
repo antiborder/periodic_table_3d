@@ -1,15 +1,13 @@
 import styled from "styled-components"
-// import elements from '../constants/elements'
+import {characteristicData } from "../../constants/characteristics"
 
 type CharacteristicPanelProps = {
-  // atomicNumber: number
-  characteristic: string
+  characteristic: number
   onCharacteristicUp: () => void
   onCharacteristicDown: () => void
 }
 
 function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
-  // const selectedElement = elements[props.atomicNumber]
 
   return (
     <StyledCharacteristicPanel
@@ -17,18 +15,17 @@ function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
         event.stopPropagation()
       }}
     >
-      <div className="modal-content">
-        <div className="characteristicBox">
-          <div className="characteristicLabel"> Color：</div>
-          <button className="characteristicDownButton" onClick={props.onCharacteristicDown}>
-            {"◀︎"}
-          </button>
-
+      <div className="characteristicBox">
+        <div className="rightBox">
           <button className="characteristicUpButton" onClick={props.onCharacteristicUp}>
-            <span className="characteristicName">{props.characteristic}</span>
+            <span className="characteristicName">{characteristicData[props.characteristic].NAME}</span>
             {"▶︎"}
           </button>
         </div>
+        <button className="characteristicDownButton" onClick={props.onCharacteristicDown}>
+          {"◀︎"}
+        </button>
+        <div className="characteristicLabel"> Color：</div>
       </div>
     </StyledCharacteristicPanel>
   )
@@ -44,17 +41,6 @@ const StyledCharacteristicPanel = styled.div`
   padding:0px;
   text-align: center;
 
-  .modal-content{
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    width:100%;
-    margin:0px;
-    padding: 0px;
-  }
-  .modal-content::-webkit-scrollbar{
-    display: none;
-  }
   .characteristicLabel{
     padding:0px;
     font-size:14px;
@@ -62,36 +48,59 @@ const StyledCharacteristicPanel = styled.div`
   }
   .characteristicBox{
     display:flex;
-    justify-content:center;
+    flex-direction:row-reverse;
     align-items:center;
     margin:4px;
   }
   .characteristicDownButton{
-    width:60px;
+    width:26px;
+    heitht:50px;
     background-color: white;
     opacity: 0.7;
-    text-align:right;
+    font-size:20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
-    font-size:20px;
+    margin:0px;
     cursor: pointer;
-
   }
-  .characteristicUpButton{
-    width:330px;
+
+  .rightBox{
+    display:flex;
+    flex-direction:row-reverse;
+    width:155px;
     background-color: white;
     opacity: 0.7;
-    text-align:right;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding:0px;
-    font-size:20px;
-    cursor: pointer;
-    .characteristicName{
-      font-size:16px;}
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    .infoIcon{
+      // position: relative;
+      // top:6px;
+      // width:30px;
+      // left: 6px;
+      // margin:0px;
+      // padding:0px;
+      // cursor: pointer;
+    }
+    .characteristicUpButton{
+      width:140px;
+      background-color: white;
+      text-align:right;
+      margin-right:0px;
+      padding-right:0px;
+      border: none;
+      font-size:20px;
+      cursor: pointer;
+      .characteristicName{
+        font-size:14px;
+      }
+    }
+  }
+  cursor: pointer;
   }
 
   .characteristic{
@@ -103,7 +112,6 @@ const StyledCharacteristicPanel = styled.div`
     border:none;
     cursor: pointer;
   }
-
 `
 
 export default CharacteristicPanel

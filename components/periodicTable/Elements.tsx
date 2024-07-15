@@ -7,7 +7,7 @@ type ElementsProps = {
   numberOfShapes: number
   shapesCount: number
   numberOfCharacteristics: number
-  CharacteristicCount: number
+  characteristic: number
   count: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
@@ -22,7 +22,7 @@ const Elements = (props: ElementsProps): React.ReactNode => {
             key={i}
             atomicNumber={elements[(i + 1).toString()].atomicNumber}
             numberOfCharacteristics={props.numberOfCharacteristics}
-            characteristicCount={props.CharacteristicCount}
+            characteristic={props.characteristic}
             numberOfShapes={props.numberOfShapes}
             selectedAtomicNumber={props.selectedAtomicNumber}
             count={props.count}

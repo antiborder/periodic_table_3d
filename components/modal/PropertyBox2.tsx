@@ -11,7 +11,7 @@ const PropertyBox2 = (props:{atomicNumber:number}):React.ReactNode => {
   element.metallic === "metal"
     ? "Metal"
     : element.metallic === "nonmetal"
-      ? "Nonmeta"
+      ? "Nonmetal"
       : element.metallic === "semimetal"
         ? "Semimetal"
         : ""

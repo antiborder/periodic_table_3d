@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import elements from "../../constants/elements"
 import constants from "../../constants/constants"
+import {characteristicData} from "../../constants/characteristics"
 
 const ElectronConfigurationBox = (props: { atomicNumber: number }): React.ReactNode => {
   return (
@@ -25,7 +26,7 @@ const ElectronConfigurationBox = (props: { atomicNumber: number }): React.ReactN
               <tr key={key}>
                 <TD>{constants.SHELL_NAMES[parseInt(key, 10) - 1]}:&nbsp;&nbsp;</TD>
                 {Object.entries(value).map(([subKey, subValue], index) => (
-                  <TD key={subKey} color={constants.COLORS.Orbital[index].COLOR}>
+                  <TD key={subKey} color={characteristicData[0].GAUGE[index].COLOR}>
                     <TD>{subValue}</TD>
                   </TD>
                 ))}

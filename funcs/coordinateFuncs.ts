@@ -137,7 +137,7 @@ const getOrbitalPositionX = (atomicNumber: number): number => {
 const orbitalPosition = (atomicNumber: number): Num3 => {
   return [
     getOrbitalPositionX(atomicNumber),
-    +2 * getOrbitNumber(elements[atomicNumber].orbit.slice(-1)) - 5,
+    +3 * getOrbitNumber(elements[atomicNumber].orbit.slice(-1)) - 6,
     -2 * parseInt(elements[atomicNumber].orbit.slice(0)),
   ]
 }
