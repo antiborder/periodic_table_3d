@@ -54,7 +54,7 @@ Elementouch shape on "3D Chemcal Periodic Table" is used with the permission and
 
 ## 5. Block Shape
 The Block Shape is a three-dimensional arrangement of elements in accordance with their electron configurations.
-X, Y, Z axis of this shape is related to family, block, and shell, respectively.
+The X, Y, Z axes of this shape are corresponding to shell, block, and family, respectively.
 As you can see from the transition between Elementouch and Block shapes, this shape is made by cutting and opening Elementouch shape.
 
 ![block shape](/images/block-shape.png)
