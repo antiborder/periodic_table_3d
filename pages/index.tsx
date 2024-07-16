@@ -1,6 +1,4 @@
-import { GetStaticProps } from "next"
 import Layout, { siteTitle } from "./components/layout"
-import { getSortedPostsData } from "../lib/posts"
 import Head from "next/head"
 import Structure from "../components/Structure"
 import SymbolPanel from "../components/controlPanel/SymbolPanel"
@@ -10,63 +8,42 @@ import ElementDetailModal from "../components/modal/ElementDetailModal"
 import ShapePanel from "../components/controlPanel/ShapePanel"
 import ColorGauge from "../components/controlPanel/ColorGauge"
 import {characteristicValues} from "../constants/characteristics"
+import {shapeValues} from "../constants/shapes"
+import elements from "../constants/elements"
 import { modulo } from "../utils/util"
 
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData,
-    },
-  }
-}
-
 const Home = (): React.ReactNode => {
-  const numberOfShapes = 5
-  const numberOfCharacteristics = 5
-  const numberOfElements = 118
 
   const [atomicNumber, setAtomicNumber] = useState(1)
-  const [count, setCount] = useState(1000) //(windowSize.width>800 ? 1000 : 1003)
+  const [shapeCount, setShapeCount] = useState(1000)
   const [characteristic, setCharacteristic] = useState<characteristicValues>(characteristicValues.ORBITAL)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-
-  const shape =
-    count % numberOfShapes === 0
-      ? "Standard"
-      : count % numberOfShapes === 1
-        ? "Curled"
-        : count % numberOfShapes === 2
-          ? "Disc"
-          : count % numberOfShapes === 3
-            ? "Elementouch"
-            : "Block"
+  const shape = shapeValues[shapeCount % Object.keys(shapeValues).length]
 
   const handleShapeNumberUp = () => {
-    setCount(count + 1)
+    setShapeCount(shapeCount + 1)
   }
   const handleShapeNumberDown = () => {
-    setCount(count - 1)
+    setShapeCount(shapeCount - 1)
   }
 
   const handleAtomicNumberUp = () => {
     setAtomicNumber((prev) => {
-      return modulo(prev, numberOfElements) + 1
+      return modulo(prev, Object.keys(elements).length) + 1
     })
   }
-
   const handleAtomicNumberDown = () => {
     setAtomicNumber((prev) => {
-      return modulo(prev - 2, numberOfElements) + 1 // 2減らして1増やすのは0になった時への配慮
+      return modulo(prev - 2, Object.keys(elements).length) + 1 // 2減らして1増やすのは0になった時への配慮
     })
   }
 
   const handleCharacteristicUp = () => {
-    setCharacteristic(modulo(characteristic + 1, numberOfCharacteristics))
+    setCharacteristic(modulo(characteristic + 1, Object.keys(characteristicValues).length))
   }
   const handleCharacteristicDown = () => {
-    setCharacteristic(modulo(characteristic - 1, numberOfCharacteristics))
+    setCharacteristic(modulo(characteristic - 1, Object.keys(characteristicValues).length))
   }
 
   return (
@@ -96,11 +73,9 @@ const Home = (): React.ReactNode => {
       <ColorGauge characteristic={characteristic} />
 
       <Structure
-        count={count}
+        shapeCount={shapeCount}
         characteristic={characteristic}
-        numberOfCharacteristics={numberOfCharacteristics}
         selectedAtomicNumber={atomicNumber}
-        numberOfShapes={numberOfShapes}
         setAtomicNumber={setAtomicNumber}
         setIsModalVisible={setIsModalVisible}
       />

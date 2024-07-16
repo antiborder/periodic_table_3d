@@ -4,11 +4,9 @@ import elements from "../../constants/elements"
 
 type ElementsProps = {
   selectedAtomicNumber: number
-  numberOfShapes: number
   shapesCount: number
-  numberOfCharacteristics: number
   characteristic: number
-  count: number
+  shapeCount: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
 }
@@ -21,11 +19,9 @@ const Elements = (props: ElementsProps): React.ReactNode => {
           <Element
             key={i}
             atomicNumber={elements[(i + 1).toString()].atomicNumber}
-            numberOfCharacteristics={props.numberOfCharacteristics}
             characteristic={props.characteristic}
-            numberOfShapes={props.numberOfShapes}
             selectedAtomicNumber={props.selectedAtomicNumber}
-            count={props.count}
+            shapeCount={props.shapeCount}
             setAtomicNumber={props.setAtomicNumber}
             setIsModalVisible={props.setIsModalVisible}
           />

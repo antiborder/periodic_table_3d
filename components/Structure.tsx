@@ -5,11 +5,9 @@ import { PerspectiveCamera } from "three"
 import Elements from "./periodicTable/Elements"
 
 type StructureProps = {
-  count: number
+  shapeCount: number
   characteristic: number
-  numberOfCharacteristics: number
   selectedAtomicNumber: number
-  numberOfShapes: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
 }
@@ -36,10 +34,8 @@ const Structure = (props: StructureProps): React.ReactNode => {
         <group rotation={[-Math.PI / 2, 0, 0]} position={[5, 8, 0]}>
           <Elements
             selectedAtomicNumber={props.selectedAtomicNumber}
-            count={props.count}
-            numberOfShapes={props.numberOfShapes}
-            shapesCount={props.count}
-            numberOfCharacteristics={props.numberOfCharacteristics}
+            shapeCount={props.shapeCount}
+            shapesCount={props.shapeCount}
             characteristic={props.characteristic}
             setIsModalVisible={props.setIsModalVisible}
             setAtomicNumber={props.setAtomicNumber}

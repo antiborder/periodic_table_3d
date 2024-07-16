@@ -16,7 +16,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
   const cardHeight = 0.8
 
   const { transitionParameter } = useSpring({
-    transitionParameter: props.count,
+    transitionParameter: props.shapeCount,
     config: { ...config.wobbly, duration: 2500 },
   })
 
@@ -126,16 +126,16 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
   return (
     <>
       <animated.mesh //{...props}
-        position={transitionParameter.to((count) => getCoordinate(count, props.atomicNumber))}
+        position={transitionParameter.to((shapeCount) => getCoordinate(shapeCount, props.atomicNumber))}
         onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
-        rotation={transitionParameter.to((count) => getRotationAngle(count, props.atomicNumber))}
+        rotation={transitionParameter.to((shapeCount) => getRotationAngle(shapeCount, props.atomicNumber))}
       >
         <group>
           <animated.mesh //{...props}
-            rotation={transitionParameter.to((count) => getTilt(count))}
+            rotation={transitionParameter.to((shapeCount) => getTilt(shapeCount))}
           >
             <Quadrilateral
               {...props}

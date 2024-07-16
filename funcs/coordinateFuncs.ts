@@ -11,8 +11,8 @@ const ELEMENTOUCH_RADIUS_F = 3.6
 
 type Num3 = [number, number, number]
 
-const getCoordinate = (count: number, atomicNumber: number): Num3 => {
-  let t = count % constants.NUMBER_OF_SHAPES
+const getCoordinate = (shapeCount: number, atomicNumber: number): Num3 => {
+  let t = shapeCount % constants.NUMBER_OF_SHAPES
   if (0 <= t && t <= 1) {
     return getTransition0to1Coordinate(t, atomicNumber)
   } else if (1 < t && t <= 2) {

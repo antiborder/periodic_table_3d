@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import InfoIcon from "../common/InfoIcon"
+import { shapeData } from "../../constants/shapes"
+import { shapeValues } from "../../constants/shapes"
 
 type ShapePanelProps = {
   // atomicNumber: number
@@ -9,7 +11,6 @@ type ShapePanelProps = {
 }
 
 const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
-  // const selectedElement = elements[props.atomicNumber]
 
   return (
     <StyledShapePanel
@@ -24,7 +25,7 @@ const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
           </a>
 
           <button className="shapeUpButton" onClick={props.onShapeUp}>
-            <span className="shapeName">{props.shape}</span>
+            <span className="shapeName">{shapeData[shapeValues[props.shape]].NAME}</span>
             {"▶︎"}
           </button>
         </div>
