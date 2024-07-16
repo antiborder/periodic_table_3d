@@ -8,7 +8,9 @@ import ElementDetailModal from "../components/modal/ElementDetailModal"
 import ShapePanel from "../components/controlPanel/ShapePanel"
 import ColorGauge from "../components/controlPanel/ColorGauge"
 import {characteristicValues} from "../constants/characteristics"
+import {characteristicData} from "../constants/characteristics"
 import {shapeValues} from "../constants/shapes"
+import {shapeData} from "../constants/shapes"
 import elements from "../constants/elements"
 import { modulo } from "../utils/util"
 
@@ -19,7 +21,7 @@ const Home = (): React.ReactNode => {
   const [characteristic, setCharacteristic] = useState<characteristicValues>(characteristicValues.ORBITAL)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const shape = shapeValues[shapeCount % Object.keys(shapeValues).length]
+  const shape = shapeValues[modulo(shapeCount , Object.keys(shapeData).length)]
 
   const handleShapeNumberUp = () => {
     setShapeCount(shapeCount + 1)
@@ -40,10 +42,10 @@ const Home = (): React.ReactNode => {
   }
 
   const handleCharacteristicUp = () => {
-    setCharacteristic(modulo(characteristic + 1, Object.keys(characteristicValues).length))
+    setCharacteristic(modulo(characteristic + 1, Object.keys(characteristicData).length))
   }
   const handleCharacteristicDown = () => {
-    setCharacteristic(modulo(characteristic - 1, Object.keys(characteristicValues).length))
+    setCharacteristic(modulo(characteristic - 1, Object.keys(characteristicData).length))
   }
 
   return (

@@ -4,7 +4,6 @@ import { shapeData } from "../../constants/shapes"
 import { shapeValues } from "../../constants/shapes"
 
 type ShapePanelProps = {
-  // atomicNumber: number
   shape: string
   onShapeUp: () => void
   onShapeDown: () => void

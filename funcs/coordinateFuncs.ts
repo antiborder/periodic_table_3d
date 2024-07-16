@@ -1,5 +1,5 @@
 import elements from "../constants/elements"
-import constants from "../constants/constants"
+import {shapeData} from "../constants/shapes"
 
 const SPIRAL_RADIUS_P = 1.8
 const SPIRAL_RADIUS_D = 4
@@ -12,7 +12,7 @@ const ELEMENTOUCH_RADIUS_F = 3.6
 type Num3 = [number, number, number]
 
 const getCoordinate = (shapeCount: number, atomicNumber: number): Num3 => {
-  let t = shapeCount % constants.NUMBER_OF_SHAPES
+  let t = shapeCount % Object.keys(shapeData).length
   if (0 <= t && t <= 1) {
     return getTransition0to1Coordinate(t, atomicNumber)
   } else if (1 < t && t <= 2) {
@@ -415,7 +415,7 @@ const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {
 }
 
 const getTilt = (t: number): Num3 => {
-  t = t % constants.NUMBER_OF_SHAPES
+  t = t % Object.keys(shapeData).length
   if (0 <= t && t <= 1) {
     return [0, 0, 0]
   } else if (1 < t && t <= 2) {
@@ -431,7 +431,7 @@ const getTilt = (t: number): Num3 => {
 export { getTilt }
 
 const getRotationAngle = (t: number, atomicNumber: number): Num3 => {
-  t = t % constants.NUMBER_OF_SHAPES
+  t = t % Object.keys(shapeData).length
   if (t >= 0 && t <= 1) {
     const theta1 = getTheta1down(atomicNumber)
     const baseTheta = theta0(atomicNumber) + t * (theta1 - theta0(atomicNumber))
