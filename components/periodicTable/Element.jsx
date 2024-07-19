@@ -6,9 +6,10 @@ import convert from "color-convert"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
 import { getCoordinate, getRotationAngle, getTilt } from "../../funcs/coordinateFuncs"
+import Opacity from '../../domain/Opacity';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...props }) => {
+const Element = ({ size = 0.4, radius = 0, color = "#000000", ...props }) => {
   const element = elements[props.atomicNumber.toString()]
 
   const [hovered, setHovered] = useState(false)
@@ -81,29 +82,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
     return color
   }
 
-  const getOpacity = () => {
-    const DEFAULT_OPACITY = 0.7
-    switch (props.characteristic) {
-      case 0:
-        opacity = DEFAULT_OPACITY
-        break
-      case 3:
-        opacity = element["1stIonizationEnergy"] === null ? 0 : DEFAULT_OPACITY
-        break
-      case 4:
-        opacity = element["electronAffinity"] === null ? 0 : DEFAULT_OPACITY
-        break
-      case 1:
-        opacity = element["boilingPoint"] === null ? 0 : DEFAULT_OPACITY
-        break
-      case 2:
-        opacity = element["meltingPoint"] === null ? 0 : DEFAULT_OPACITY
-        break
-
-      default:
-    }
-    return opacity
-  }
+  const opacity = new Opacity(props.characteristic,props.atomicNumber).getOpacity();
 
   const handleElementClick = () => {
     props.setAtomicNumber(props.atomicNumber)
@@ -146,7 +125,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", opacity = 1, ...pr
                 [cardWidth, 0, 0],
               ]}
               color={getColor()}
-              opacity={getOpacity()}
+              opacity={opacity}
             />
             {props.selectedAtomicNumber === element.atomicNumber && (
               <FocusFrame
