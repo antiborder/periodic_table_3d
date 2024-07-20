@@ -2,14 +2,14 @@ import React, { useState } from "react"
 import { config, useSpring, animated } from "@react-spring/three"
 import { Text } from "@react-three/drei"
 import elements from "../../constants/elements"
-import convert from "color-convert"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
 import { getCoordinate, getRotationAngle, getTilt } from "../../funcs/coordinateFuncs"
-import Opacity from '../../domain/Opacity';
+import CardOpacity from '../../domain/CardOpacity';
+import CardColor from "../../domain/CardColor"
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Element = ({ size = 0.4, radius = 0, color = "#000000", ...props }) => {
+const Element = ({ size = 0.4, radius = 0, ...props }) => {
   const element = elements[props.atomicNumber.toString()]
 
   const [hovered, setHovered] = useState(false)
@@ -21,68 +21,8 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", ...props }) => {
     config: { ...config.wobbly, duration: 2500 },
   })
 
-  const getColor = () => {
-    let max = 0
-    let min
-    let weight
-    let h
-    let s
-    let v
-
-    switch (props.characteristic) {
-      case 0:
-        color =
-          element.orbit.slice(-1) === "s"
-            ? "#FF777A"
-            : element.orbit.slice(-1) === "p"
-              ? "#FFBC20"
-              : element.orbit.slice(-1) === "d"
-                ? "#67BCEE"
-                : "#6ADE68"
-        break
-
-      case 3:
-        max = 2372
-        min = 370
-        weight = -(element["1stIonizationEnergy"] - min) / (max - min) + 1
-        h = Math.pow(weight, 2) * 120 + 240
-        s = Math.pow(weight, 4) * 100
-        v = Math.pow(weight, 2) * 100
-        color = "#" + convert.hsv.hex(h, s, v)
-        break
-      case 4:
-        max = 349
-        min = -116
-        weight = (element["electronAffinity"] - min) / (max - min)
-        h = -Math.pow(weight, 1) * 120 + 330
-        s = Math.pow(weight, 0.4) * 100
-        v = Math.pow(weight, 0.6) * 100
-        color = "#" + convert.hsv.hex(h, s, v)
-        break
-      case 1:
-        max = 5930
-        min = -273
-        weight = -(element["boilingPoint"] - min) / (max - min) + 1
-        h = Math.pow(weight, 1.5) * 180 + 0
-        s = 100
-        v = 100
-        color = "#" + convert.hsv.hex(h, s, v)
-        break
-      case 2:
-        max = 5930
-        min = -273
-        weight = -(element["meltingPoint"] - min) / (max - min) + 1
-        h = Math.pow(weight, 1.5) * 180 + 0
-        s = 100
-        v = 100
-        color = "#" + convert.hsv.hex(h, s, v)
-        break
-      default:
-    }
-    return color
-  }
-
-  const opacity = new Opacity(props.characteristic,props.atomicNumber).getOpacity();
+  const opacity = new CardOpacity(props.characteristic,props.atomicNumber).getOpacity();
+  const color = new CardColor(props.characteristic,props.atomicNumber).getColor();
 
   const handleElementClick = () => {
     props.setAtomicNumber(props.atomicNumber)
@@ -124,7 +64,7 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", ...props }) => {
                 [cardWidth, 0, -cardHeight],
                 [cardWidth, 0, 0],
               ]}
-              color={getColor()}
+              color={color}
               opacity={opacity}
             />
             {props.selectedAtomicNumber === element.atomicNumber && (
@@ -136,7 +76,6 @@ const Element = ({ size = 0.4, radius = 0, color = "#000000", ...props }) => {
                   [cardWidth, 0, -cardHeight],
                   [cardWidth, 0, 0],
                 ]}
-                color={getColor()}
               />
             )}
             <group rotation={[Math.PI / 2, 0, 0]}>

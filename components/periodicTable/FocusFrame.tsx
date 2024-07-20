@@ -25,16 +25,6 @@ const FocusFrame = (props: FocusFrameProps): React.ReactNode => {
 
   return (
     <>
-      {/* <Quadrilateral
-        points={[
-            [props.points[0][0]-outerDelta, props.points[0][1], props.points[0][2]+outerDelta],
-            [props.points[1][0]-outerDelta, props.points[1][1], props.points[1][2]-outerDelta],
-            [props.points[2][0]+outerDelta, props.points[2][1], props.points[2][2]-outerDelta],
-            [props.points[3][0]+outerDelta, props.points[3][1], props.points[3][2]+outerDelta]
-        ]}
-        color={'blue'}
-
-        /> */}
       <Quadrilateral
         points={[
           [props.points[0][0] - outerDelta, props.points[0][1], props.points[0][2] + outerDelta],
@@ -107,18 +97,4 @@ const FocusFrame = (props: FocusFrameProps): React.ReactNode => {
     </>
   )
 }
-
-const Scene = (props) => {
-  return (
-    <mesh geometry={props.geometry}>
-      <meshBasicMaterial
-        color={props.color}
-        opacity={0.7}
-        transparent={true}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
-  )
-}
-
 export default FocusFrame
