@@ -1,4 +1,5 @@
 import elements from '../constants/elements'
+import {cartesianToCylindrical} from '../funcs/coordinateFuncs'
 
 type Num3 = [number, number, number]
 
@@ -78,6 +79,16 @@ class OrbitalPosition {
           default:
         }
         return orbitNumber
+      }
+
+      public radius (): number {
+        return cartesianToCylindrical(this.orbitalPosition())[0]
+      }
+      public theta (): number {
+        return cartesianToCylindrical(this.orbitalPosition())[1]
+      }
+      public z (): number {
+        return cartesianToCylindrical(this.orbitalPosition())[2]
       }
 
 

@@ -1,10 +1,10 @@
 import elements from "../constants/elements"
 import {shapeData} from "../constants/shapes"
+import TablePosition from "../domain/TablePosition"
 import OrbitalPosition from "../domain/OrbitalPosition"
+import CurledPosition from "../domain/CurledPosition"
+import DiscPosition from "../domain/DiscPosition"
 
-const SPIRAL_RADIUS_P = 1.8
-const SPIRAL_RADIUS_D = 4
-const SPIRAL_RADIUS_F = 7
 
 const ELEMENTOUCH_RADIUS_P = 2.0
 const ELEMENTOUCH_RADIUS_D = 2.4
@@ -29,12 +29,13 @@ const getCoordinate = (shapeCount: number, atomicNumber: number): Num3 => {
 export { getCoordinate }
 
 const getTransition0to1Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const theta1 = getTheta1down(atomicNumber)
-  const distance = getRadius1(atomicNumber) - ELEMENTOUCH_RADIUS_P
+  const tablePosition = new TablePosition(atomicNumber)
+  const curledPosition= new CurledPosition(atomicNumber)
+  const distance = curledPosition.radius() - ELEMENTOUCH_RADIUS_P
   const cartesianCoordinate = cylindricalToCartesian([
-    radius0(atomicNumber) + t * (getRadius1(atomicNumber) - radius0(atomicNumber)),
-    theta0(atomicNumber) + t * (theta1 - theta0(atomicNumber)),
-    z0(atomicNumber) + t * (z1(atomicNumber) - z0(atomicNumber)),
+    tablePosition.radius() + t * (curledPosition.radius() - tablePosition.radius()),
+    tablePosition.theta() + t * (curledPosition.thetaDown() - tablePosition.theta()),
+    tablePosition.z() + t * (curledPosition.z() - tablePosition.z()),
   ])
   const translatedCoordinate: Num3 = [
     cartesianCoordinate[0],
@@ -42,16 +43,6 @@ const getTransition0to1Coordinate = (t: number, atomicNumber: number): Num3 => {
     cartesianCoordinate[2],
   ]
   return translatedCoordinate
-}
-
-const radius0 = (atomicNumber: number): number => {
-  return cartesianToCylindrical(getTablePosition(atomicNumber))[0]
-}
-const theta0 = (atomicNumber: number): number => {
-  return cartesianToCylindrical(getTablePosition(atomicNumber))[1]
-}
-const z0 = (atomicNumber: number): number => {
-  return cartesianToCylindrical(getTablePosition(atomicNumber))[2]
 }
 
 const getOrbitNumber = (orbit): number => {
@@ -81,18 +72,7 @@ const cylindricalToCartesian = ([radius, theta, z]: Num3): Num3 => {
 const cartesianToCylindrical = ([x, y, z]: Num3): Num3 => {
   return [Math.sqrt(x * x + y * y), Math.atan2(y, x), z]
 }
-
-const getTableBasePosition = (atomicNumber: number): Num3 => {
-  return [elements[atomicNumber].tableColumn, 0, -elements[atomicNumber].tableRow]
-}
-
-const translateTablePosition = (position: Num3): Num3 => {
-  return [position[0] - 13, position[1] - 6, position[2]]
-}
-
-const getTablePosition = (atomicNumber: number): Num3 => {
-  return translateTablePosition(getTableBasePosition(atomicNumber))
-}
+export {cartesianToCylindrical}
 
 const getOrbitalPositionX = (atomicNumber: number): number => {
   let x = 0
@@ -135,15 +115,6 @@ const getOrbitalPositionX = (atomicNumber: number): number => {
   return x
 }
 
-
-// const orbitalPosition = (atomicNumber: number): Num3 => {
-//   return [
-//     getOrbitalPositionX(atomicNumber),
-//     +3 * getOrbitNumber(elements[atomicNumber].orbit.slice(-1)) - 6,
-//     -2 * parseInt(elements[atomicNumber].orbit.slice(0)),
-//   ]
-// }
-
 const getElementouchPeriod = (atomicNumber: number): number => {
   let period = 0
   switch (elements[atomicNumber]["spiralRow"]) {
@@ -163,118 +134,15 @@ const getElementouchPeriod = (atomicNumber: number): number => {
   return period
 }
 
-const getSpiralPeriod = (atomicNumber: number): number => {
-  let period = 0
-  switch (elements[atomicNumber]["tableRow"]) {
-    case 2:
-    case 3:
-      period = 8
-      break
-    case 4:
-    case 5:
-      period = 18
-      break
-    case 6:
-    case 7:
-    case 9:
-    case 10:
-      period = 32
-      break
-    default:
-      period = 8
-  }
-  return period
-}
-
-const getRadius1 = (atomicNumber: number): number => {
-  let radius: number = 0
-  switch (elements[atomicNumber]["tableRow"]) {
-    case 4:
-    case 5:
-      radius = SPIRAL_RADIUS_D
-      break
-    case 6:
-    case 7:
-      radius = SPIRAL_RADIUS_F
-      break
-    case 9:
-    case 10:
-      radius = SPIRAL_RADIUS_F
-      break
-    default:
-      radius = SPIRAL_RADIUS_P
-  }
-  return radius
-}
-const getTheta1down = (atomicNumber: number): number => {
-  let baseTheta = 0
-  switch (elements[atomicNumber].tableRow) {
-    case 1:
-    case 2:
-    case 3:
-      baseTheta =
-        elements[atomicNumber].tableColumn <= 2
-          ? ((elements[atomicNumber].tableColumn - 3.5) / getSpiralPeriod(atomicNumber)) *
-            2 *
-            Math.PI
-          : ((elements[atomicNumber].tableColumn - 13.5) / getSpiralPeriod(atomicNumber)) *
-            2 *
-            Math.PI
-      break
-    case 4:
-    case 5:
-      baseTheta = ((elements[atomicNumber].tableColumn - 6) / 18) * 2 * Math.PI
-      break
-    case 6:
-    case 7:
-      baseTheta =
-        elements[atomicNumber].tableColumn <= 2
-          ? ((elements[atomicNumber].tableColumn - 9.5) / getSpiralPeriod(atomicNumber)) *
-            2 *
-            Math.PI
-          : ((elements[atomicNumber].tableColumn + 4.5) / getSpiralPeriod(atomicNumber)) *
-            2 *
-            Math.PI
-      break
-    case 9:
-    case 10:
-      baseTheta =
-        ((elements[atomicNumber].tableColumn - 9.5) / getSpiralPeriod(atomicNumber)) * 2 * Math.PI
-
-      break
-    default:
-      baseTheta = elements[atomicNumber].tableColumn - 1
-  }
-  let adjustedTheta = baseTheta //- Math.PI * 4.1 / 8
-  return adjustedTheta
-}
-const getTheta1up = (atomicNumber: number): number => {
-  return getTheta1down(atomicNumber)
-}
-const z1 = (atomicNumber: number): number => {
-  const { tableRow, tableColumn } = elements[atomicNumber]
-
-  switch (true) {
-    case tableRow <= 3 && tableColumn >= 13:
-      return -tableRow - (tableColumn - 11) / 8
-    case tableRow <= 5:
-      return -tableRow - tableColumn / 18
-    case tableRow >= 8:
-      return -tableRow + 3 - tableColumn / 32
-    case tableColumn <= 2:
-      return -tableRow - tableColumn / 32
-    default:
-      return -tableRow - (tableColumn + 14) / 32
-  }
-}
-
 const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const theta1 = getTheta1up(atomicNumber)
-  const distance = getRadius1(atomicNumber) - ELEMENTOUCH_RADIUS_P
+  const curledPosition = new CurledPosition(atomicNumber)
+  const discPosition = new DiscPosition(atomicNumber)
+  const theta1 = curledPosition.thetaUp()
+  const distance = curledPosition.radius() - ELEMENTOUCH_RADIUS_P
   const cartesianCoordinate = cylindricalToCartesian([
-    getRadius1(atomicNumber) + (t - 1) * (radius2(atomicNumber) - getRadius1(atomicNumber)),
-    theta1 + (t - 1) * (theta2(atomicNumber) - theta1),
-    z1(atomicNumber) + (t - 1) * (z2 - z1(atomicNumber)),
+    curledPosition.radius() + (t - 1) * (discPosition.radius() - curledPosition.radius()),
+    theta1 + (t - 1) * (discPosition.theta() - theta1),
+    curledPosition.z() + (t - 1) * (discPosition.z() - curledPosition.z()),
   ])
   const translatedCoordinate: Num3 = [
     cartesianCoordinate[0],
@@ -284,29 +152,14 @@ const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
   return translatedCoordinate
 }
 
-const radius2 = (atomicNumber: number): number => {
-  if (elements[atomicNumber]["tableRow"] <= 7) {
-    return elements[atomicNumber]["tableRow"] + 2 + elements[atomicNumber]["tableColumn"] / 18
-  } else {
-    return elements[atomicNumber]["tableRow"] - 1 + elements[atomicNumber]["tableColumn"] / 32
-  }
-}
-const theta2 = (atomicNumber: number) => {
-  return elements[atomicNumber]["tableRow"] <= 7
-    ? elements[atomicNumber]["tableColumn"] <= 2
-      ? (elements[atomicNumber]["tableColumn"] / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-      : ((elements[atomicNumber]["tableColumn"] + 14) / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-    : (elements[atomicNumber]["tableColumn"] / 32) * 2 * Math.PI - (Math.PI * 3) / 4
-}
-const z2 = -12
-
 const getTransition2to3Coordinate = (t: number, atomicnumber: number): Num3 => {
+  const discPosition = new DiscPosition(atomicnumber)
   const distance = getRadius3(atomicnumber) - ELEMENTOUCH_RADIUS_P
   const cartesianCoordinate = cylindricalToCartesian([
-    radius2(atomicnumber) + (t - 2) * (getRadius3(atomicnumber) - radius2(atomicnumber)),
-    theta2(atomicnumber) +
-      Math.pow(t - 2, 1) * (getTheta3down(atomicnumber) - theta2(atomicnumber)),
-    z2 + (t - 2) * (z3(atomicnumber) - z2),
+    discPosition.radius() + (t - 2) * (getRadius3(atomicnumber) - discPosition.radius()),
+    discPosition.theta() +
+      Math.pow(t - 2, 1) * (getTheta3down(atomicnumber) - discPosition.theta()),
+      discPosition.z() + (t - 2) * (z3(atomicnumber) - discPosition.z()),
   ])
   const translatedCoordinate: Num3 = [
     cartesianCoordinate[0],
@@ -374,13 +227,14 @@ const z3 = (atomicNumber) =>
   elements[atomicNumber].spiralColumn / getElementouchPeriod(atomicNumber)
 
 const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
+  const orbitalPosition = new OrbitalPosition(atomicNumber)
   const distance = getRadius3(atomicNumber) - ELEMENTOUCH_RADIUS_P
   const cartesianCoordinate = cylindricalToCartesian([
     getRadius3(atomicNumber) +
-      Math.pow(t - 3, 0.5) * (radius4(atomicNumber) - getRadius3(atomicNumber)),
+      Math.pow(t - 3, 0.5) * (orbitalPosition.radius() - getRadius3(atomicNumber)),
     getTheta3up(atomicNumber) +
-      Math.pow(t - 3, 0.7) * (theta4(atomicNumber) - getTheta3up(atomicNumber)),
-    z3(atomicNumber) + (t - 3) * (z4(atomicNumber) - z3(atomicNumber)),
+      Math.pow(t - 3, 0.7) * (orbitalPosition.theta() - getTheta3up(atomicNumber)),
+    z3(atomicNumber) + (t - 3) * (orbitalPosition.z() - z3(atomicNumber)),
   ])
   const translatedCoordinate: Num3 = [
     cartesianCoordinate[0],
@@ -390,28 +244,13 @@ const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
   return translatedCoordinate
 }
 
-const radius4 = (atomicNumber) => {
-  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
-  return cartesianToCylindrical(orbitalPosition)[0]
-}
-const theta4 = (atomicNumber) => {
-  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
-  return cartesianToCylindrical(orbitalPosition)[1]
-}
-const z4 = (atomicNumber) => {
-  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
-  return cartesianToCylindrical(orbitalPosition)[2]
-}
-
 const revalueTheta = (theta) => {
   return Math.PI < theta ? theta - 2 * Math.PI : theta
 }
 
 const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const tablePosition = getTablePosition(atomicNumber)
-
+  const tablePosition =  new TablePosition(atomicNumber).getTablePosition()
   const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
-
   return [
     orbitalPosition[0] +
       (t - 4) * (tablePosition[0] - orbitalPosition[0]),
@@ -440,20 +279,25 @@ export { getTilt }
 
 const getRotationAngle = (t: number, atomicNumber: number): Num3 => {
   t = t % Object.keys(shapeData).length
+  const tablePosition = new TablePosition(atomicNumber)
+  const curledPosition = new CurledPosition(atomicNumber)
+  const discPosition = new DiscPosition(atomicNumber)
+  const theta0 = tablePosition.theta()
   if (t >= 0 && t <= 1) {
-    const theta1 = getTheta1down(atomicNumber)
-    const baseTheta = theta0(atomicNumber) + t * (theta1 - theta0(atomicNumber))
+    const theta1 = curledPosition.thetaDown()
+
+    const baseTheta = theta0 + t * (theta1 - theta0)
 
     return [0, 0, revalueTheta(baseTheta + (Math.PI * 1.1) / 2) * t]
   } else if (t > 1 && t <= 2) {
-    const theta1 = getTheta1up(atomicNumber)
-    const baseTheta = theta1 + (t - 1) * (theta2(atomicNumber) - theta1)
+    const theta1 = curledPosition.thetaUp()
+    const baseTheta = theta1 + (t - 1) * (discPosition.theta() - theta1)
 
     return [0, 0, baseTheta + (Math.PI * 1.1) / 2]
   } else if (t > 2 && t <= 3) {
     const baseTheta =
-      theta2(atomicNumber) +
-      Math.pow(t - 2, 1 / 2) * (getTheta3down(atomicNumber) - theta2(atomicNumber))
+    discPosition.theta() +
+      Math.pow(t - 2, 1 / 2) * (getTheta3down(atomicNumber) - discPosition.theta())
     return [0, 0, baseTheta + (Math.PI * 1.1) / 2]
   } else if (t > 3 && t <= 4) {
     const revaluedTheta0 = theta0
@@ -463,7 +307,7 @@ const getRotationAngle = (t: number, atomicNumber: number): Num3 => {
       0,
       revalueTheta(
         getTheta3up(atomicNumber) +
-          Math.pow(t - 3, 2) * (revaluedTheta0(atomicNumber) - getTheta3up(atomicNumber)) +
+          Math.pow(t - 3, 2) * (revaluedTheta0 - getTheta3up(atomicNumber)) +
           (Math.PI * 1.1) / 2
       ) *
         (4 - t),
