@@ -1,5 +1,6 @@
 import elements from "../constants/elements"
 import {shapeData} from "../constants/shapes"
+import OrbitalPosition from "../domain/OrbitalPosition"
 
 const SPIRAL_RADIUS_P = 1.8
 const SPIRAL_RADIUS_D = 4
@@ -134,13 +135,14 @@ const getOrbitalPositionX = (atomicNumber: number): number => {
   return x
 }
 
-const orbitalPosition = (atomicNumber: number): Num3 => {
-  return [
-    getOrbitalPositionX(atomicNumber),
-    +3 * getOrbitNumber(elements[atomicNumber].orbit.slice(-1)) - 6,
-    -2 * parseInt(elements[atomicNumber].orbit.slice(0)),
-  ]
-}
+
+// const orbitalPosition = (atomicNumber: number): Num3 => {
+//   return [
+//     getOrbitalPositionX(atomicNumber),
+//     +3 * getOrbitNumber(elements[atomicNumber].orbit.slice(-1)) - 6,
+//     -2 * parseInt(elements[atomicNumber].orbit.slice(0)),
+//   ]
+// }
 
 const getElementouchPeriod = (atomicNumber: number): number => {
   let period = 0
@@ -389,13 +391,16 @@ const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
 }
 
 const radius4 = (atomicNumber) => {
-  return cartesianToCylindrical(orbitalPosition(atomicNumber))[0]
+  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
+  return cartesianToCylindrical(orbitalPosition)[0]
 }
 const theta4 = (atomicNumber) => {
-  return cartesianToCylindrical(orbitalPosition(atomicNumber))[1]
+  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
+  return cartesianToCylindrical(orbitalPosition)[1]
 }
 const z4 = (atomicNumber) => {
-  return cartesianToCylindrical(orbitalPosition(atomicNumber))[2]
+  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
+  return cartesianToCylindrical(orbitalPosition)[2]
 }
 
 const revalueTheta = (theta) => {
@@ -404,13 +409,16 @@ const revalueTheta = (theta) => {
 
 const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {
   const tablePosition = getTablePosition(atomicNumber)
+
+  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
+
   return [
-    orbitalPosition(atomicNumber)[0] +
-      (t - 4) * (tablePosition[0] - orbitalPosition(atomicNumber)[0]),
-    orbitalPosition(atomicNumber)[1] +
-      (t - 4) * (tablePosition[1] - orbitalPosition(atomicNumber)[1]),
-    orbitalPosition(atomicNumber)[2] +
-      (t - 4) * (tablePosition[2] - orbitalPosition(atomicNumber)[2]),
+    orbitalPosition[0] +
+      (t - 4) * (tablePosition[0] - orbitalPosition[0]),
+    orbitalPosition[1] +
+      (t - 4) * (tablePosition[1] - orbitalPosition[1]),
+    orbitalPosition[2] +
+      (t - 4) * (tablePosition[2] - orbitalPosition[2]),
   ]
 }
 
