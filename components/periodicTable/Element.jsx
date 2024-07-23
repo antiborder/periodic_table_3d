@@ -4,13 +4,17 @@ import { Text } from "@react-three/drei"
 import elements from "../../constants/elements"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
-import { getCoordinate, getRotationAngle, getTilt } from "../../utils/coordinateFuncs"
+import {getTilt } from "../../utils/coordinateFuncs"
+import CardRotationAngle from "../../domain/CardRotationAngle"
 import CardOpacity from "../../domain/CardOpacity"
 import CardColor from "../../domain/CardColor"
+import CardPosition from "../../domain/CardPosition"
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Element = ({ size = 0.4, radius = 0, ...props }) => {
   const element = elements[props.atomicNumber.toString()]
+  const cardPosition = new CardPosition(props.atomicNumber)
+  const cardRotationAngle = new CardRotationAngle(props.atomicNumber)
 
   const [hovered, setHovered] = useState(false)
   const cardWidth = 0.8
@@ -46,14 +50,13 @@ const Element = ({ size = 0.4, radius = 0, ...props }) => {
     <>
       <animated.mesh //{...props}
         position={transitionParameter.to((shapeCount) =>
-          getCoordinate(shapeCount, props.atomicNumber)
+          cardPosition.coordinate(shapeCount)
         )}
-        onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
         rotation={transitionParameter.to((shapeCount) =>
-          getRotationAngle(shapeCount, props.atomicNumber)
+          cardRotationAngle.angle(shapeCount)
         )}
       >
         <group>

@@ -11,7 +11,8 @@ class TablePosition {
   }
 
   public getTablePosition = (): Num3 => {
-    return this.translateTablePosition(this.getTableBasePosition())
+    const basePosition = this.getTableBasePosition()
+    return this.translateTablePosition(basePosition)
   }
 
   private getTableBasePosition(): Num3 {
