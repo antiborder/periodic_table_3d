@@ -1,4 +1,5 @@
 import elements from "../constants/elements"
+import constants from "../constants/constants"
 import { shapeData } from "../constants/shapes"
 
 export type Num3 = [number, number, number]
@@ -15,7 +16,7 @@ export { cartesianToCylindrical }
 const getOrbitalPositionX = (atomicNumber: number): number => {
   let x = 0
   let shellNumber = parseInt(elements[atomicNumber].orbit.slice(0, 1))
-  let orbitNumber = getOrbitNumber(elements[atomicNumber].orbit.slice(-1))
+  let orbitNumber = constants.ORBIT_NUMBER[elements[atomicNumber].orbit.slice(-1)]
   switch (orbitNumber) {
     case 1:
       if (elements[atomicNumber].atomicNumber === 2 || elements[atomicNumber].atomicNumber === 1) {
@@ -53,28 +54,6 @@ const getOrbitalPositionX = (atomicNumber: number): number => {
   return x
 }
 export { getOrbitalPositionX }
-
-const getOrbitNumber = (orbit: string): number => {
-  let orbitNumber = 0
-  switch (orbit) {
-    case "s":
-      orbitNumber = 1
-      break
-    case "p":
-      orbitNumber = 2
-      break
-    case "d":
-      orbitNumber = 3
-      break
-    case "f":
-      orbitNumber = 4
-      break
-    default:
-  }
-  return orbitNumber
-}
-export { getOrbitNumber }
-
 
 const getTilt = (t: number): Num3 => {
   t = t % Object.keys(shapeData).length
