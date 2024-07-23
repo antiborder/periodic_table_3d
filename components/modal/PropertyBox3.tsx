@@ -2,8 +2,8 @@ import React from "react"
 import elements from "../../constants/elements"
 import styled from "styled-components"
 
-const PropertyBox3 = (props:{atomicNumber:number}):React.ReactNode => {
-    const element = elements[props.atomicNumber]
+const PropertyBox3 = (props: { atomicNumber: number }): React.ReactNode => {
+  const element = elements[props.atomicNumber]
   return (
     <StyledPropertyBox3>
       <table>

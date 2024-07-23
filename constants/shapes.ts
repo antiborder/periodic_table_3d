@@ -1,25 +1,25 @@
-export enum shapeValues{
-    STANDARD,
-    CURLED,
-    DISC,
-    ELEMENTOUCH,
-    BLOCK
-  }
+export enum shapeValues {
+  STANDARD,
+  CURLED,
+  DISC,
+  ELEMENTOUCH,
+  BLOCK,
+}
 
-export const shapeData ={
-  [shapeValues.STANDARD]:{
-    NAME:"Standard",
+export const shapeData = {
+  [shapeValues.STANDARD]: {
+    NAME: "Standard",
   },
-  [shapeValues.CURLED]:{
-    NAME:"Curled",
+  [shapeValues.CURLED]: {
+    NAME: "Curled",
   },
-  [shapeValues.DISC]:{
-    NAME:"Disc",
+  [shapeValues.DISC]: {
+    NAME: "Disc",
   },
-  [shapeValues.ELEMENTOUCH]:{
-    NAME:"Elementouch",
+  [shapeValues.ELEMENTOUCH]: {
+    NAME: "Elementouch",
   },
-  [shapeValues.BLOCK]:{
-    NAME:"Block",
+  [shapeValues.BLOCK]: {
+    NAME: "Block",
   },
 }

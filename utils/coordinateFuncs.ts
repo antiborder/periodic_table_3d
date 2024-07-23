@@ -1,17 +1,13 @@
 import elements from "../constants/elements"
-import {shapeData} from "../constants/shapes"
+import { shapeData } from "../constants/shapes"
+
 import TablePosition from "../domain/TablePosition"
 import OrbitalPosition from "../domain/OrbitalPosition"
 import CurledPosition from "../domain/CurledPosition"
 import DiscPosition from "../domain/DiscPosition"
 import ElementouchPosition from "../domain/ElementouchPosition"
 
-
-const ELEMENTOUCH_RADIUS_P = 2.0
-const ELEMENTOUCH_RADIUS_D = 2.4
-const ELEMENTOUCH_RADIUS_F = 3.6
-
-type Num3 = [number, number, number]
+const BASE_DISTANCE = 2.0
 
 const getCoordinate = (shapeCount: number, atomicNumber: number): Num3 => {
   let t = shapeCount % Object.keys(shapeData).length
@@ -31,8 +27,9 @@ export { getCoordinate }
 
 const getTransition0to1Coordinate = (t: number, atomicNumber: number): Num3 => {
   const tablePosition = new TablePosition(atomicNumber)
-  const curledPosition= new CurledPosition(atomicNumber)
-  const distance = curledPosition.radius() - ELEMENTOUCH_RADIUS_P
+  const curledPosition = new CurledPosition(atomicNumber)
+
+  const distance = curledPosition.radius() - BASE_DISTANCE
   const cartesianCoordinate = cylindricalToCartesian([
     tablePosition.radius() + t * (curledPosition.radius() - tablePosition.radius()),
     tablePosition.theta() + t * (curledPosition.thetaDown() - tablePosition.theta()),
@@ -46,6 +43,77 @@ const getTransition0to1Coordinate = (t: number, atomicNumber: number): Num3 => {
   return translatedCoordinate
 }
 
+const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
+  const curledPosition = new CurledPosition(atomicNumber)
+  const discPosition = new DiscPosition(atomicNumber)
+
+  const distance = curledPosition.radius() -  BASE_DISTANCE
+  const cartesianCoordinate = cylindricalToCartesian([
+    curledPosition.radius() + (t - 1) * (discPosition.radius() - curledPosition.radius()),
+    curledPosition.thetaUp() + (t - 1) * (discPosition.theta() - curledPosition.thetaUp()),
+    curledPosition.z() + (t - 1) * (discPosition.z() - curledPosition.z()),
+  ])
+  const translatedCoordinate: Num3 = [
+    cartesianCoordinate[0],
+    cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
+    cartesianCoordinate[2],
+  ]
+  return translatedCoordinate
+}
+
+const getTransition2to3Coordinate = (t: number, atomicnumber: number): Num3 => {
+  const discPosition = new DiscPosition(atomicnumber)
+  const elementouchPosition = new ElementouchPosition(atomicnumber)
+
+  const distance = elementouchPosition.radius() -  BASE_DISTANCE
+  const cartesianCoordinate = cylindricalToCartesian([
+    discPosition.radius() + (t - 2) * (elementouchPosition.radius() - discPosition.radius()),
+    discPosition.theta() +
+      Math.pow(t - 2, 1) * (elementouchPosition.thetaUp() - discPosition.theta()),
+    discPosition.z() + (t - 2) * (elementouchPosition.z() - discPosition.z()),
+  ])
+  const translatedCoordinate: Num3 = [
+    cartesianCoordinate[0],
+    cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
+    cartesianCoordinate[2],
+  ]
+  return translatedCoordinate
+}
+
+const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
+  const orbitalPosition = new OrbitalPosition(atomicNumber)
+  const elementouchPosition = new ElementouchPosition(atomicNumber)
+
+  const distance = elementouchPosition.radius() - BASE_DISTANCE
+  const cartesianCoordinate = cylindricalToCartesian([
+    elementouchPosition.radius() +
+      Math.pow(t - 3, 0.5) * (orbitalPosition.radius() - elementouchPosition.radius()),
+    elementouchPosition.thetaUp() +
+      Math.pow(t - 3, 0.7) * (orbitalPosition.theta() - elementouchPosition.thetaUp()),
+    elementouchPosition.z() + (t - 3) * (orbitalPosition.z() - elementouchPosition.z()),
+  ])
+
+  const translatedCoordinate: Num3 = [
+    cartesianCoordinate[0],
+    cartesianCoordinate[1] - Math.abs(4 - t) * distance,
+    cartesianCoordinate[2],
+  ]
+  return translatedCoordinate
+}
+
+const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {
+  const tablePosition = new TablePosition(atomicNumber).getTablePosition()
+  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
+
+  return [
+    orbitalPosition[0] + (t - 4) * (tablePosition[0] - orbitalPosition[0]),
+    orbitalPosition[1] + (t - 4) * (tablePosition[1] - orbitalPosition[1]),
+    orbitalPosition[2] + (t - 4) * (tablePosition[2] - orbitalPosition[2]),
+  ]
+}
+
+type Num3 = [number, number, number]
+
 const cylindricalToCartesian = ([radius, theta, z]: Num3): Num3 => {
   return [radius * Math.cos(theta), radius * Math.sin(theta), z]
 }
@@ -53,7 +121,7 @@ const cylindricalToCartesian = ([radius, theta, z]: Num3): Num3 => {
 const cartesianToCylindrical = ([x, y, z]: Num3): Num3 => {
   return [Math.sqrt(x * x + y * y), Math.atan2(y, x), z]
 }
-export {cartesianToCylindrical}
+export { cartesianToCylindrical }
 
 const getOrbitalPositionX = (atomicNumber: number): number => {
   let x = 0
@@ -95,9 +163,9 @@ const getOrbitalPositionX = (atomicNumber: number): number => {
   }
   return x
 }
-export {getOrbitalPositionX}
+export { getOrbitalPositionX }
 
-const getOrbitNumber = (orbit:string): number => {
+const getOrbitNumber = (orbit: string): number => {
   let orbitNumber = 0
   switch (orbit) {
     case "s":
@@ -116,77 +184,8 @@ const getOrbitNumber = (orbit:string): number => {
   }
   return orbitNumber
 }
-export {getOrbitNumber}
+export { getOrbitNumber }
 
-
-const getTransition1to2Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const curledPosition = new CurledPosition(atomicNumber)
-  const discPosition = new DiscPosition(atomicNumber)
-  const theta1 = curledPosition.thetaUp()
-  const distance = curledPosition.radius() - ELEMENTOUCH_RADIUS_P
-  const cartesianCoordinate = cylindricalToCartesian([
-    curledPosition.radius() + (t - 1) * (discPosition.radius() - curledPosition.radius()),
-    theta1 + (t - 1) * (discPosition.theta() - theta1),
-    curledPosition.z() + (t - 1) * (discPosition.z() - curledPosition.z()),
-  ])
-  const translatedCoordinate: Num3 = [
-    cartesianCoordinate[0],
-    cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-    cartesianCoordinate[2],
-  ]
-  return translatedCoordinate
-}
-
-const getTransition2to3Coordinate = (t: number, atomicnumber: number): Num3 => {
-  const discPosition = new DiscPosition(atomicnumber)
-  const elementouchPosition = new ElementouchPosition(atomicnumber)
-  const distance = elementouchPosition.radius() - ELEMENTOUCH_RADIUS_P
-  const cartesianCoordinate = cylindricalToCartesian([
-    discPosition.radius() + (t - 2) * (elementouchPosition.radius() - discPosition.radius()),
-    discPosition.theta() +
-      Math.pow(t - 2, 1) * (elementouchPosition.thetaUp() - discPosition.theta()),
-      discPosition.z() + (t - 2) * (elementouchPosition.z() - discPosition.z()),
-  ])
-  const translatedCoordinate: Num3 = [
-    cartesianCoordinate[0],
-    cartesianCoordinate[1] + (-Math.abs(t - 1) + 1) * distance,
-    cartesianCoordinate[2],
-  ]
-  return translatedCoordinate
-}
-
-const getTransition3to4Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const orbitalPosition = new OrbitalPosition(atomicNumber)
-  const elementouchPosition = new ElementouchPosition(atomicNumber)
-  const distance = elementouchPosition.radius() - ELEMENTOUCH_RADIUS_P
-  const cartesianCoordinate = cylindricalToCartesian([
-    elementouchPosition.radius() +
-      Math.pow(t - 3, 0.5) * (orbitalPosition.radius() - elementouchPosition.radius()),
-      elementouchPosition.thetaUp() +
-      Math.pow(t - 3, 0.7) * (orbitalPosition.theta() - elementouchPosition.thetaUp()),
-    elementouchPosition.z() + (t - 3) * (orbitalPosition.z() - elementouchPosition.z()),
-  ])
-
-  const translatedCoordinate: Num3 = [
-    cartesianCoordinate[0],
-    cartesianCoordinate[1] - Math.abs(4 - t) * distance,
-    cartesianCoordinate[2],
-  ]
-  return translatedCoordinate
-}
-
-const getTransition4to5Coordinate = (t: number, atomicNumber: number): Num3 => {
-  const tablePosition =  new TablePosition(atomicNumber).getTablePosition()
-  const orbitalPosition = new OrbitalPosition(atomicNumber).orbitalPosition()
-  return [
-    orbitalPosition[0] +
-      (t - 4) * (tablePosition[0] - orbitalPosition[0]),
-    orbitalPosition[1] +
-      (t - 4) * (tablePosition[1] - orbitalPosition[1]),
-    orbitalPosition[2] +
-      (t - 4) * (tablePosition[2] - orbitalPosition[2]),
-  ]
-}
 
 const getTilt = (t: number): Num3 => {
   t = t % Object.keys(shapeData).length
@@ -224,7 +223,7 @@ const getRotationAngle = (t: number, atomicNumber: number): Num3 => {
     return [0, 0, baseTheta + (Math.PI * 1.1) / 2]
   } else if (t > 2 && t <= 3) {
     const baseTheta =
-    discPosition.theta() +
+      discPosition.theta() +
       Math.pow(t - 2, 1 / 2) * (elementouchPosition.thetaDown() - discPosition.theta())
     return [0, 0, baseTheta + (Math.PI * 1.1) / 2]
   } else if (t > 3 && t <= 4) {

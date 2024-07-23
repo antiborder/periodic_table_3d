@@ -4,8 +4,8 @@ import { Text } from "@react-three/drei"
 import elements from "../../constants/elements"
 import Quadrilateral from "./Quadrilateral"
 import FocusFrame from "./FocusFrame"
-import { getCoordinate, getRotationAngle, getTilt } from "../../funcs/coordinateFuncs"
-import CardOpacity from '../../domain/CardOpacity';
+import { getCoordinate, getRotationAngle, getTilt } from "../../utils/coordinateFuncs"
+import CardOpacity from "../../domain/CardOpacity"
 import CardColor from "../../domain/CardColor"
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -21,8 +21,8 @@ const Element = ({ size = 0.4, radius = 0, ...props }) => {
     config: { ...config.wobbly, duration: 2500 },
   })
 
-  const opacity = new CardOpacity(props.characteristic,props.atomicNumber).getOpacity();
-  const color = new CardColor(props.characteristic,props.atomicNumber).getColor();
+  const opacity = new CardOpacity(props.characteristic, props.atomicNumber).getOpacity()
+  const color = new CardColor(props.characteristic, props.atomicNumber).getColor()
 
   const handleElementClick = () => {
     props.setAtomicNumber(props.atomicNumber)
@@ -45,12 +45,16 @@ const Element = ({ size = 0.4, radius = 0, ...props }) => {
   return (
     <>
       <animated.mesh //{...props}
-        position={transitionParameter.to((shapeCount) => getCoordinate(shapeCount, props.atomicNumber))}
+        position={transitionParameter.to((shapeCount) =>
+          getCoordinate(shapeCount, props.atomicNumber)
+        )}
         onPointerOver={() => handlePointerOver()}
         onPointerOut={() => handlePointerOut()}
         scale={scale}
         onClick={handleElementClick}
-        rotation={transitionParameter.to((shapeCount) => getRotationAngle(shapeCount, props.atomicNumber))}
+        rotation={transitionParameter.to((shapeCount) =>
+          getRotationAngle(shapeCount, props.atomicNumber)
+        )}
       >
         <group>
           <animated.mesh //{...props}
@@ -92,9 +96,7 @@ const Element = ({ size = 0.4, radius = 0, ...props }) => {
               <Text
                 position={[0.4, -0.43, 0.01]}
                 fontSize={0.5}
-                color={
-                  props.characteristic <= 2 ? "#000" : "#fff"
-                }
+                color={props.characteristic <= 2 ? "#000" : "#fff"}
                 anchorX="center"
                 anchorY="middle"
               >

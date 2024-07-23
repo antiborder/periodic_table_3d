@@ -1,24 +1,17 @@
-import elements from '../constants/elements'
-import {cartesianToCylindrical} from '../funcs/coordinateFuncs'
-
-type Num3 = [number, number, number]
+import elements from "../constants/elements"
 
 const SPIRAL_RADIUS_P = 1.8
 const SPIRAL_RADIUS_D = 4
 const SPIRAL_RADIUS_F = 7
 
-
 class CurledPosition {
+  private atomicNumber: number
 
-    private atomicNumber: number
+  constructor(atomicNumber: number) {
+    this.atomicNumber = atomicNumber
+  }
 
-    constructor(atomicNumber: number) {
-      this.atomicNumber = atomicNumber
-    }
-
-
-
-  private getSpiralPeriod (): number {
+  private getSpiralPeriod(): number {
     let period = 0
     switch (elements[this.atomicNumber]["tableRow"]) {
       case 2:
@@ -41,7 +34,7 @@ class CurledPosition {
     return period
   }
 
-  radius  (): number  {
+  radius(): number {
     let radius: number = 0
     switch (elements[this.atomicNumber]["tableRow"]) {
       case 4:
@@ -61,7 +54,7 @@ class CurledPosition {
     }
     return radius
   }
-  thetaDown  (): number  {
+  thetaDown(): number {
     let baseTheta = 0
     switch (elements[this.atomicNumber].tableRow) {
       case 1:
@@ -103,10 +96,10 @@ class CurledPosition {
     let adjustedTheta = baseTheta //- Math.PI * 4.1 / 8
     return adjustedTheta
   }
-   thetaUp  (): number  {
+  thetaUp(): number {
     return this.thetaDown()
   }
-  z  (): number  {
+  z(): number {
     const { tableRow, tableColumn } = elements[this.atomicNumber]
 
     switch (true) {
@@ -122,6 +115,5 @@ class CurledPosition {
         return -tableRow - (tableColumn + 14) / 32
     }
   }
-
 }
 export default CurledPosition

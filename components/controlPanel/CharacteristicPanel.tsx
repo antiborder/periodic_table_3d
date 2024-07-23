@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {characteristicData } from "../../constants/characteristics"
+import { characteristicData } from "../../constants/characteristics"
 
 type CharacteristicPanelProps = {
   characteristic: number
@@ -8,7 +8,6 @@ type CharacteristicPanelProps = {
 }
 
 function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
-
   return (
     <StyledCharacteristicPanel
       onClick={(event) => {
@@ -18,7 +17,9 @@ function CharacteristicPanel(props: CharacteristicPanelProps): React.ReactNode {
       <div className="characteristicBox">
         <div className="rightBox">
           <button className="characteristicUpButton" onClick={props.onCharacteristicUp}>
-            <span className="characteristicName">{characteristicData[props.characteristic].NAME}</span>
+            <span className="characteristicName">
+              {characteristicData[props.characteristic].NAME}
+            </span>
             {"▶︎"}
           </button>
         </div>
