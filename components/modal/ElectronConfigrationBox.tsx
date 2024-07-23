@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import elements from "../../constants/elements"
 import constants from "../../constants/constants"
-import {characteristicData} from "../../constants/characteristics"
+import { characteristicData } from "../../constants/characteristics"
 
 const ElectronConfigurationBox = (props: { atomicNumber: number }): React.ReactNode => {
   return (

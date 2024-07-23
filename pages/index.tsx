@@ -7,21 +7,22 @@ import CharacteristicPanel from "../components/controlPanel/CharacteristicPanel"
 import ElementDetailModal from "../components/modal/ElementDetailModal"
 import ShapePanel from "../components/controlPanel/ShapePanel"
 import ColorGauge from "../components/controlPanel/ColorGauge"
-import {characteristicValues} from "../constants/characteristics"
-import {characteristicData} from "../constants/characteristics"
-import {shapeValues} from "../constants/shapes"
-import {shapeData} from "../constants/shapes"
+import { characteristicValues } from "../constants/characteristics"
+import { characteristicData } from "../constants/characteristics"
+import { shapeValues } from "../constants/shapes"
+import { shapeData } from "../constants/shapes"
 import elements from "../constants/elements"
 import { modulo } from "../utils/util"
 
 const Home = (): React.ReactNode => {
-
   const [atomicNumber, setAtomicNumber] = useState(1)
   const [shapeCount, setShapeCount] = useState(1000)
-  const [characteristic, setCharacteristic] = useState<characteristicValues>(characteristicValues.ORBITAL)
+  const [characteristic, setCharacteristic] = useState<characteristicValues>(
+    characteristicValues.ORBITAL
+  )
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const shape = shapeValues[modulo(shapeCount , Object.keys(shapeData).length)]
+  const shape = shapeValues[modulo(shapeCount, Object.keys(shapeData).length)]
 
   const handleShapeNumberUp = () => {
     setShapeCount(shapeCount + 1)

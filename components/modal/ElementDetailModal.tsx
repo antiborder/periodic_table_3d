@@ -40,13 +40,9 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
           electron={element.electron}
         />
 
-        <PropertyBox2
-          atomicNumber={props.atomicNumber}
-        />
+        <PropertyBox2 atomicNumber={props.atomicNumber} />
 
-        <PropertyBox3
-          atomicNumber={props.atomicNumber}
-        />
+        <PropertyBox3 atomicNumber={props.atomicNumber} />
 
         <ElectronConfigurationBox atomicNumber={props.atomicNumber} />
 

@@ -10,7 +10,6 @@ type ShapePanelProps = {
 }
 
 const ShapePanel = (props: ShapePanelProps): React.ReactNode => {
-
   return (
     <StyledShapePanel
       onClick={(event) => {
