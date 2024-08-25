@@ -19,7 +19,7 @@
     "**/*.tsx",
     "pages/components/date.tsxte.tsx",
     "pages/components/date.tsxte.tsx",
-    "components/periodicTable/Element.jsx",
+    "components/periodicTable/ElementCard.jsx",
     "funcs/coordinateFuncs.js"
   ],
   "exclude": ["node_modules"]

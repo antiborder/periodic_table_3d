@@ -1,5 +1,5 @@
 import React from "react"
-import Element from "./Element"
+import ElementCard from "./ElementCard"
 import elements from "../../constants/elements"
 
 type ElementsProps = {
@@ -16,7 +16,7 @@ const Elements = (props: ElementsProps): React.ReactNode => {
     <>
       {[...Array(118)].map((_, i) => {
         return (
-          <Element
+          <ElementCard
             key={i}
             atomicNumber={elements[(i + 1).toString()].atomicNumber}
             characteristic={props.characteristic}

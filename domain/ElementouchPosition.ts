@@ -1,5 +1,6 @@
 import elements from "../constants/elements"
 import { getOrbitalPositionX } from "../utils/coordinateFuncs"
+import { orbitName } from "../utils/elementFuncs"
 
 const ELEMENTOUCH_RADIUS_P = 2.0
 const ELEMENTOUCH_RADIUS_D = 2.4
@@ -43,7 +44,7 @@ class ElementouchPosition {
 
   thetaUp(): number {
     let winding = 0
-    switch (elements[this.atomicNumber]["orbit"].slice(-1)) {
+    switch (orbitName(this.atomicNumber)) {
       case "s":
         winding = -1
         break
