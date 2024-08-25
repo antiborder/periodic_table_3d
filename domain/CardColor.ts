@@ -1,6 +1,7 @@
 import elements from "../constants/elements"
 import convert from "color-convert"
 import { characteristicValues } from "../constants/characteristics"
+import { orbitName } from "../utils/elementFuncs"
 
 class CardColor {
   private characteristic: number
@@ -29,15 +30,18 @@ class CardColor {
   }
 
   private getOrbitalColor(): string {
-    const color =
-      elements[this.atomicNumber].orbit.slice(-1) === "s"
-        ? "#FF777A"
-        : elements[this.atomicNumber].orbit.slice(-1) === "p"
-          ? "#FFBC20"
-          : elements[this.atomicNumber].orbit.slice(-1) === "d"
-            ? "#67BCEE"
-            : "#6ADE68"
-    return color
+    switch (orbitName(this.atomicNumber)) {
+      case "s":
+        return "#FF777A"
+      case "p":
+        return "#FFBC20"
+      case "d":
+        return "#67BCEE"
+      case "f":
+        return "#6ADE68"
+      default:
+        return "#FFFFFF"
+    }
   }
 
   private getBoilingPointColor(): string {
