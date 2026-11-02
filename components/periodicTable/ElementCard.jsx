@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { config, useSpring, animated } from "@react-spring/three"
 import { Text } from "@react-three/drei"
 import elements from "../../constants/elements"
@@ -28,9 +28,26 @@ const ElementCard = ({ size = 0.4, radius = 0, ...props }) => {
   const opacity = new CardOpacity(props.characteristic, props.atomicNumber).getOpacity()
   const color = new CardColor(props.characteristic, props.atomicNumber).getColor()
 
-  const handleElementClick = () => {
+  const pointerDownAt = useRef(0)
+
+  const handleElementClick = (event) => {
+    // bond mode: a tap chooses this element as the partner
+    if (props.bondActive && props.onBondPick) {
+      props.onBondPick(props.atomicNumber)
+      return
+    }
+    // long-press (>=450ms, barely moved) enters bond mode with this element
+    const heldMs = Date.now() - pointerDownAt.current
+    if (heldMs >= 450 && (event?.delta ?? 0) <= 6 && props.onBondEnter) {
+      props.onBondEnter(props.atomicNumber)
+      return
+    }
     props.setAtomicNumber(props.atomicNumber)
     props.setIsModalVisible(true)
+  }
+
+  const handlePointerDown = () => {
+    pointerDownAt.current = Date.now()
   }
 
   const handlePointerOver = () => {
@@ -51,6 +68,7 @@ const ElementCard = ({ size = 0.4, radius = 0, ...props }) => {
       <animated.mesh //{...props}
         position={transitionParameter.to((shapeCount) => cardPosition.coordinate(shapeCount))}
         onPointerOut={() => handlePointerOut()}
+        onPointerDown={handlePointerDown}
         scale={scale}
         onClick={handleElementClick}
         rotation={transitionParameter.to((shapeCount) => cardRotationAngle.angle(shapeCount))}

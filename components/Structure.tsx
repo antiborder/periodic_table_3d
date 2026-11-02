@@ -10,6 +10,9 @@ type StructureProps = {
   selectedAtomicNumber: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
+  bondActive?: boolean
+  onBondPick?: (atomicNumber: number) => void
+  onBondEnter?: (atomicNumber: number) => void
 }
 
 const Structure = (props: StructureProps): React.ReactNode => {
@@ -39,6 +42,9 @@ const Structure = (props: StructureProps): React.ReactNode => {
             characteristic={props.characteristic}
             setIsModalVisible={props.setIsModalVisible}
             setAtomicNumber={props.setAtomicNumber}
+            bondActive={props.bondActive}
+            onBondPick={props.onBondPick}
+            onBondEnter={props.onBondEnter}
           />
         </group>
       </Canvas>

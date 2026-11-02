@@ -13,6 +13,8 @@ import { shapeValues } from "../constants/shapes"
 import { shapeData } from "../constants/shapes"
 import elements from "../constants/elements"
 import { modulo } from "../utils/util"
+import BondMode, { BondPhase } from "../components/bond/BondMode"
+import { BondType } from "../domain/bond"
 
 const Home = (): React.ReactNode => {
   const [atomicNumber, setAtomicNumber] = useState(1)
@@ -21,6 +23,40 @@ const Home = (): React.ReactNode => {
     characteristicValues.ORBITAL
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
+
+  // ---- bond mode (くっつき方) ----
+  const [bondA, setBondA] = useState<number | null>(null)
+  const [bondB, setBondB] = useState<number | null>(null)
+  const [bondPhase, setBondPhase] = useState<BondPhase>("pick")
+  const [bondGuess, setBondGuess] = useState<BondType | null>(null)
+
+  const enterBond = (a: number) => {
+    setBondA(a)
+    setBondB(null)
+    setBondGuess(null)
+    setBondPhase("pick")
+    setIsModalVisible(false)
+  }
+  const exitBond = () => {
+    setBondA(null)
+    setBondB(null)
+    setBondGuess(null)
+    setBondPhase("pick")
+  }
+  const handleBondPick = (z: number) => {
+    if (bondA === null || bondPhase !== "pick") return
+    setBondB(z)
+    setBondPhase("predict")
+  }
+  const handleBondGuess = (t: BondType) => {
+    setBondGuess(t)
+    setBondPhase("result")
+  }
+  const resetBond = () => {
+    setBondB(null)
+    setBondGuess(null)
+    setBondPhase("pick")
+  }
 
   const shape = shapeValues[modulo(shapeCount, Object.keys(shapeData).length)]
 
@@ -55,25 +91,29 @@ const Home = (): React.ReactNode => {
         <title>{siteTitle}</title>
       </Head>
 
-      <SymbolPanel
-        atomicNumber={atomicNumber}
-        onAtomicNumberUp={handleAtomicNumberUp}
-        onAtomicNumberDown={handleAtomicNumberDown}
-      />
+      {bondA === null && (
+        <>
+          <SymbolPanel
+            atomicNumber={atomicNumber}
+            onAtomicNumberUp={handleAtomicNumberUp}
+            onAtomicNumberDown={handleAtomicNumberDown}
+          />
 
-      <ShapePanel
-        shape={shape}
-        onShapeUp={handleShapeNumberUp}
-        onShapeDown={handleShapeNumberDown}
-      />
+          <ShapePanel
+            shape={shape}
+            onShapeUp={handleShapeNumberUp}
+            onShapeDown={handleShapeNumberDown}
+          />
 
-      <CharacteristicPanel
-        characteristic={characteristic}
-        onCharacteristicUp={handleCharacteristicUp}
-        onCharacteristicDown={handleCharacteristicDown}
-      />
+          <CharacteristicPanel
+            characteristic={characteristic}
+            onCharacteristicUp={handleCharacteristicUp}
+            onCharacteristicDown={handleCharacteristicDown}
+          />
 
-      <ColorGauge characteristic={characteristic} />
+          <ColorGauge characteristic={characteristic} />
+        </>
+      )}
 
       <Structure
         shapeCount={shapeCount}
@@ -81,10 +121,29 @@ const Home = (): React.ReactNode => {
         selectedAtomicNumber={atomicNumber}
         setAtomicNumber={setAtomicNumber}
         setIsModalVisible={setIsModalVisible}
+        bondActive={bondA !== null && bondPhase === "pick"}
+        onBondPick={handleBondPick}
+        onBondEnter={enterBond}
       />
 
-      {isModalVisible === true && (
-        <ElementDetailModal setIsModalVisible={setIsModalVisible} atomicNumber={atomicNumber} />
+      {isModalVisible === true && bondA === null && (
+        <ElementDetailModal
+          setIsModalVisible={setIsModalVisible}
+          atomicNumber={atomicNumber}
+          onBondStart={enterBond}
+        />
+      )}
+
+      {bondA !== null && (
+        <BondMode
+          a={bondA}
+          b={bondB}
+          phase={bondPhase}
+          guessed={bondGuess}
+          onGuess={handleBondGuess}
+          onReset={resetBond}
+          onExit={exitBond}
+        />
       )}
     </Layout>
   )

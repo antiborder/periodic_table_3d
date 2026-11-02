@@ -9,6 +9,9 @@ type ElementsProps = {
   shapeCount: number
   setIsModalVisible: (isModalVisible: boolean) => void
   setAtomicNumber: (atomicNumber: number) => void
+  bondActive?: boolean
+  onBondPick?: (atomicNumber: number) => void
+  onBondEnter?: (atomicNumber: number) => void
 }
 
 const Elements = (props: ElementsProps): React.ReactNode => {
@@ -24,6 +27,9 @@ const Elements = (props: ElementsProps): React.ReactNode => {
             shapeCount={props.shapeCount}
             setAtomicNumber={props.setAtomicNumber}
             setIsModalVisible={props.setIsModalVisible}
+            bondActive={props.bondActive}
+            onBondPick={props.onBondPick}
+            onBondEnter={props.onBondEnter}
           />
         )
       })}

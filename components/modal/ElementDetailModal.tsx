@@ -9,6 +9,7 @@ import PropertyBox3 from "./PropertyBox3"
 type ElementDetailModalProps = {
   atomicNumber: number
   setIsModalVisible: (isModalVisible: boolean) => void
+  onBondStart?: (atomicNumber: number) => void
 }
 
 function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
@@ -39,6 +40,12 @@ function ElementDetailModal(props: ElementDetailModalProps): React.ReactNode {
           symbol={element.symbol}
           electron={element.electron}
         />
+
+        {props.onBondStart && (
+          <StyledBondButton onClick={() => props.onBondStart && props.onBondStart(props.atomicNumber)}>
+            🧲 くっつけてみる
+          </StyledBondButton>
+        )}
 
         <PropertyBox2 atomicNumber={props.atomicNumber} />
 
@@ -109,6 +116,23 @@ const StyledElementDetailModal = styled.div`
     font-size: 16px;
     border-radius: 8px;
     margin:20px auto;
+  }
+`
+
+const StyledBondButton = styled.button`
+  display: block;
+  margin: 6px auto 14px;
+  background: #22304a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(34, 48, 74, 0.35);
+  &:active {
+    background: #f07f13;
   }
 `
 
